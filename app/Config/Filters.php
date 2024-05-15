@@ -8,6 +8,7 @@ use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\Honeypot;
 use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\SecureHeaders;
+use \App\Filters\LogintokoFilter;
 
 class Filters extends BaseConfig
 {
@@ -21,6 +22,7 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+        'isLoggedIn' => LogintokoFilter::class,
     ];
 
     /**
@@ -60,5 +62,14 @@ class Filters extends BaseConfig
      * Example:
      * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
      */
-    public array $filters = [];
+    public array $filters = [
+        'isLoggedIn' => ['before' => 
+            [
+                '/Backend/manage',
+                '/Backend/editProfil/*',
+                '/Backend/deleteProduk/*',
+                '/Backend/addNewProduk/',
+            ]
+        ]
+    ];
 }

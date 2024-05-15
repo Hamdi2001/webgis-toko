@@ -1,3 +1,57 @@
+* {
+  box-sizing: border-box;
+}
+
+.main {
+  float: left;
+  margin-top: 10rem;
+  width: auto;
+  padding: 0 20px;
+  align-items: center;
+}
+
+.main-form{
+  margin-top: 10rem;
+  padding: 0 20px;
+  align-items: center;
+}
+
+.main-map {
+  margin-top: 2rem;
+
+}
+
+.main h5{
+    margin-top: 1rem;
+}
+
+.main img{
+    width: 150px;
+    height: 150px;
+    margin-top: 5px;
+}
+
+@media only screen and (max-width: 620px) {
+  /* For mobile phones: */
+    .main {
+    width: 100%;
+  }
+}
+
 .foto_toko{
     width: 100px;
+}
+
+#map{
+    width: auto;
+    height: 600px;
+}
+
+.btn-back {
+  display:block;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 1px solid grey;
+  
 }

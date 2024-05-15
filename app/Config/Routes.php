@@ -30,7 +30,39 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Pages::index');
+$routes->get('/', 'Frontend::index');
+$routes->get('/login', 'Frontend::login');
+$routes->get('/register', 'Frontend::register');
+$routes->get('/forgot', 'Frontend::forgot');
+$routes->get('/admin', 'Login::index');
+$routes->get('/Toko/editProfilAdmin/(:segment)', 'Toko::editProfilAdmin/$1');
+$routes->get('/toko/tampilFoto/(:segment)/(:segment)', 'Toko::tampilFoto/$1/$2');
+
+
+$routes->get('/berita/(:segment)', 'Frontend::detailBerita/$1');
+$routes->get('/Pages/editBanner/(:segment)', 'Pages::editBanner/$1');
+
+$routes->delete('/Pages/dataBanner/(:num)', 'Pages::deleteBanner/$1');
+
+$routes->get('/Toko/editProduk/(:segment)', 'Toko::editProduk/$1');
+$routes->get('/Toko/editToko/(:segment)', 'Toko::editToko/$1');
+$routes->get('/Backend/editProduk/(:segment)', 'Backend::editProduk/$1');
+$routes->get('/Backend/editProfil/(:segment)', 'Backend::editProfil/$1');
+$routes->get('/Backend/editLokasi/(:segment)', 'Backend::editLokasi/$1');
+
+$routes->delete('/toko/(:num)', 'Toko::delete/$1');
+$routes->delete('/Backend/(:num)', 'Backend::deleteProduk/$1');
+$routes->delete('/Toko/detail/(:segment)', 'Toko::deleteProduk/$1');
+
+$routes->get('/backend/(:segment)', 'Backend::detailToko/$1');
+$routes->get('/toko/(:any)', 'Toko::detail/$1');
+
+$routes->get('/Pages/editBerita/(:segment)', 'Pages::editBerita/$1');
+$routes->delete('/Pages/dataBerita/(:num)', 'Pages::deleteBerita/$1');
+
+$routes->get('Toko/printexcel', 'Toko::printexcel');
+$routes->get('Toko/import', 'Toko::import');
+
 
 /*
  * --------------------------------------------------------------------
