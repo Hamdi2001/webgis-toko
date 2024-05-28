@@ -8,7 +8,7 @@
 	const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: 19,
 		maxBounds: bounds,
-        minZoom: 8.5, // Set this to your desired minimum zoom level
+        minZoom: 8, // Set this to your desired minimum zoom level
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 	}).addTo(map);
 

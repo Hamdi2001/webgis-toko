@@ -215,26 +215,34 @@ class Backend extends BaseController
 
     public function viewMap(){
         $keyword = $this->request->getGet('keyword');
-        $data = $this->tokoModel->getPaginated(5, $keyword);
+        if ($keyword != '') {
+            $tokoModel = new TokoModel();
+            $keyword = $this->request->getVar('keyword');
+            $num = 5; // Jumlah item per halaman
 
-        // $currentPage = $this->request->getVar('page_toko_kelontong') ? $this->request->getVar('page_toko_kelontong') : 1;
+            $data = [
+                'location' => $tokoModel->getPaginated($num, $keyword),
+                'toko' => $tokoModel->getPaginated($num, $keyword),
+                'pager' => $tokoModel->pager,
+                'keyword' => $keyword,
+            ];
 
-        // $keyword = $this->request->getVar('keyword');
-        // if($keyword){
-        //     $toko = $this->tokoModel->searchutama($keyword);
-        // }else{
-        //     $toko = $this->tokoModel;
-        // }
-
-        // $map_view = $toko
-        //     ->where('status_toko', '1') // Filter data dengan status
-        //     ->paginate(5, 'toko_kelontong');
-        //     $data_map = [   
-        //         'location' => $map_view,
-        //         'pager' => $this->tokoModel->pager,
-        //         'currentPage' => $currentPage,
-        //     ];
-        return view('halaman_utama/tampilan_map', $data);
+            return view('halaman_utama/tampilan_map', $data);
+        }
+            $tokoModel = new TokoModel();
+            $perPage = 5; // Jumlah item per halaman
+            // Paginasi data
+            $currentPage = $this->request->getVar('page_toko_pagination') ? $this->request->getVar('page_toko_pagination') : 1;
+            $data = [
+                'location' => $tokoModel->where('status_toko', '1')->getAllData(),
+                'toko' => $tokoModel->where('status_toko', '1')->paginate(5, 'toko_pagination'),
+                'pager' => $tokoModel->pager,
+                'keyword' => $keyword,
+                'currentPage' => $currentPage,
+                'perPage' => $perPage
+                ];
+                
+            return view('halaman_utama/tampilan_map', $data);
     }
 
     public function editProfil($user_id){

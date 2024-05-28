@@ -19,7 +19,8 @@
             <form action="" method="get">
                 <div class="col-4">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Masukkan Keyword..." name="keyword" value="">
+                        <?php $request = \Config\Services::request(); ?>
+                        <input type="text" class="form-control" placeholder="Masukkan Keyword..." name="keyword" value="<?= $request->getGet('keyword'); ?>">
                         <button class="btn btn-outline-secondary fas fa-search text-primary" type="sumbit" name="submit"></button>
                     </div>
                 </div>
@@ -37,9 +38,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
+                    <?php if ($keyword != ''){ ?>
+                    <?php
                     $page = isset($_GET['page']) ? $_GET['page'] : 1;
                     $no = 1 + (5 * ($page - 1));
+                    ?>
+                    <?php }else{ ?>
+                    <?php
+                    $no = ($currentPage - 1) * $perPage + 1;
+                    ?>
+                    <?php } ?>
+                    <?php 
                     foreach ($toko as $tk) : ?>
                         <tr class="text-center">
                             <td><?= $no++; ?></td>
@@ -52,7 +61,11 @@
             </div>
         </div>
     </div>
+    <?php if ($keyword != ''){ ?>
     <?= $pager->links('default', 'pagination'); ?>
+    <?php }else{ ?>
+    <?= $pager->links('toko_pagination', 'pagination') ?>
+    <?php } ?>
 <?= $this->include('admin_layout/map_toko'); ?>
 <style>
 .custom-popup .leaflet-popup-content-wrapper {
@@ -88,7 +101,7 @@
         iconSize: [45, 45],
     });
 
-    <?php foreach($toko as $key => $value) {?>
+    <?php foreach($location as $value) {?>
 		L.marker([<?= $value['lat_toko']; ?>, <?= $value['lon_toko']; ?>], {
             icon : market
         })
@@ -96,7 +109,6 @@
 			'<b><?= $value['nama_toko']; ?></b><br>'+
 			'Alamat : <?= $value['alamat_toko']; ?><br>'+
             '<a href="/backend/<?= $value['id_toko']; ?>">Lihat Detail.....</a>')
-            
 		.addTo(map);
 	<?php } ?>
 
@@ -125,29 +137,6 @@
             }
         }).addTo(map);
     });
-  
-    // // Memuat dan menambahkan GeoJSON ke peta dengan gaya dinamis
-    // var geojsonLayer = null;
-    // $.getJSON("", function(data) {
-    //     geojsonLayer = L.geoJSON(data, {
-    //         style: function(feature) {
-    //             return {
-    //                 color: hashStringToColor(feature.properties.Kecamatan), // Menghasilkan warna dari nama kecamatan
-    //                 fillOpacity: 1.0
-    //             };
-    //         }
-    //     });
-    // });
-
-
-
-    // // Tambahkan kontrol layer ke dalam peta
-    // var overlayMaps = {
-    //     "Kabupaten Berau": geojsonLayer
-    // };
-
-    // // Tambahkan kontrol layer ke dalam peta
-    // L.control.layers(null, overlayMaps).addTo(map);
 </script>
 
 <?= $this->endSection(); ?>

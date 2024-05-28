@@ -21,10 +21,11 @@ class TokoModel extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
-    public function getPaginated($num, $keyword = null){
+    public function getPaginated($num, $keyword = ''){
         $builder = $this->builder();
         $builder->where('status_toko', '1');
-        if ($keyword != '') {
+
+        if (!empty($keyword)) {
             $builder->groupStart();
             $builder->like('nama_toko', $keyword);
             $builder->orLike('alamat_toko', $keyword);
@@ -33,10 +34,8 @@ class TokoModel extends Model
             $builder->orLike('jenis_usaha_omset', $keyword);
             $builder->groupEnd();
         }
-        return[
-            'toko' => $this->paginate($num),
-            'pager' => $this->pager,
-        ];
+
+        return $this->paginate($num);
     }
 
     public function getPaginatedadmin($num, $keyword = null){
@@ -122,16 +121,6 @@ class TokoModel extends Model
             ->get()
             ->getResultArray();
     }
-
-    // public function searchutama($keyword){
-    //     return $this->table('toko_kelontong')
-    //     ->like('nama_toko', $keyword)
-    //     ->orLike('alamat_toko', $keyword)
-    //     ->orLike('kecamatan_toko', $keyword)
-    //     ->orLike('jenis_usaha', $keyword)
-    //     ->orLike('jenis_usaha_omset', $keyword)
-    //     ->where('status_toko', '1');    
-    // }
 
     public function getLoginData($Iduser){
         $builder = $this->db->table('toko_kelontong');

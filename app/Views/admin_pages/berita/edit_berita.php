@@ -14,24 +14,24 @@
                 <div class="form-03-main">
                     <input type="hidden" name="id_produk" value="<?= $berita['id_berita']; ?>">
                     <input type="hidden" name="foto_lama" value="<?= $berita['gambar_berita']; ?>">
-                    <div class="form-group">
+                    <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                         <input type="text" name="judul_berita" class="form-control _ge_de_ol" placeholder="Masukkan Judul Berita" value="<?= (old('judul_berita')) ? old('judul_berita') : $berita['judul_berita'] ?>">
                         <p class="text-danger"><?= isset($errors['judul_berita']) == isset($errors['judul_berita']) ? validation_show_error('judul_berita') : '' ?></p>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                         <input type="text" name="slug_berita" class="form-control _ge_de_ol" placeholder="Masukkan Slug Berita" value="<?= (old('slug_berita')) ? old('slug_berita') : $berita['slug_berita'] ?>">
                         <p class="text-danger"><?= isset($errors['slug_berita']) == isset($errors['slug_berita']) ? validation_show_error('slug_berita') : '' ?></p>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                         <textarea rows="10" cols="30" id="editor"  name="isi_berita" class="form-control _ge_de_ol" placeholder="Masukkan Isi Berita" value="<?= (old('isi_berita')) ? old('isi_berita') : $berita['isi_berita'] ?>>"></textarea>
                         <p class="text-danger"><?= isset($errors['isi_berita']) == isset($errors['isi_berita']) ? validation_show_error('isi_berita') : '' ?></p>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                         <input type="text" name="penulis_berita" class="form-control _ge_de_ol" placeholder="Masukkan Penulis Berita" value="<?= (old('penulis_berita')) ? old('penulis_berita') : $berita['penulis_berita'] ?>">
                         <p class="text-danger"><?= isset($errors['penulis_berita']) == isset($errors['penulis_berita']) ? validation_show_error('penulis_berita') : '' ?></p>
                     </div>
                    <div class="form-group">
-                        <label for="">Gambar Berita</label>
+                        <label for="">Gambar Berita</label><p class="text-danger d-inline">*</p>
                             <div class="form-control _ge_de_ol custom-file">
                                 <input type="file" name="gambar_berita" class="custom-file-input" id="gambar_berita">
                                 <label class="custom-file-label" for="gambar_berita"><?= $berita['gambar_berita']; ?></label>

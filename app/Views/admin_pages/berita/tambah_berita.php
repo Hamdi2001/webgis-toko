@@ -12,23 +12,23 @@
                 <form action="<?php echo base_url('Pages/addBerita'); ?>" method="post" enctype="multipart/form-data">
                     <div class="form-03-main">
                     <?php $errors = validation_errors() ?>
-                    <div class="form-group">
+                    <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                         <input type="text" name="judul_berita" class="form-control _ge_de_ol" placeholder="Masukkan Judul Berita" value="<?= old('judul_berita'); ?>">
                         <p class="text-danger"><?= isset($errors['judul_berita']) == isset($errors['judul_berita']) ? validation_show_error('judul_berita') : '' ?></p>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                         <input type="text" name="slug_berita" class="form-control _ge_de_ol" placeholder="Masukkan Slug Berita" value="<?= old('slug_berita'); ?>">
                         <p class="text-danger"><?= isset($errors['slug_berita']) == isset($errors['slug_berita']) ? validation_show_error('slug_berita') : '' ?></p>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                         <textarea rows="10" cols="30" id="editor"  name="isi_berita" class="form-control _ge_de_ol" placeholder="Masukkan Isi Berita" value="<?= old('isi_berita'); ?>"></textarea>
                         <p class="text-danger"><?= isset($errors['isi_berita']) == isset($errors['isi_berita']) ? validation_show_error('isi_berita') : '' ?></p>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                         <input type="text" name="penulis_berita" class="form-control _ge_de_ol" placeholder="Masukkan Penulis Berita" value="<?= old('penulis_berita'); ?>">
                         <p class="text-danger"><?= isset($errors['penulis_berita']) == isset($errors['penulis_berita']) ? validation_show_error('penulis_berita') : '' ?></p>
                     </div>
-                   <div class="form-group">
+                   <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                         <input type="file" name="gambar_berita" class="form-control" accept="gambar berita/*">
                         <p class="text-danger"><?= isset($errors['gambar_berita']) == isset($errors['gambar_berita']) ? validation_show_error('gambar_berita') : '' ?></p>
                     </div>

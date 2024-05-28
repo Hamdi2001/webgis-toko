@@ -13,11 +13,11 @@
                     <div class="form-03-main">
                     <?php $errors = validation_errors() ?>
                      <div class="form-group">
-                        <label>Masukkan Foto Banner</label>
+                        <label>Masukkan Foto Banner</label><p class="text-danger d-inline">*</p>
                         <input type="file" name="foto_banner" class="form-control" value="<?= old('foto_banner'); ?>" accept="banner/*">
                         <p class="text-danger"><?= isset($errors['foto_banner']) == isset($errors['foto_banner']) ? validation_show_error('foto_banner') : '' ?></p>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                         <input type="text" name="deskripsi_banner" class="form-control _ge_de_ol" placeholder="Masukkan Deskripsi Singkat" value="<?= old('deskripsi_banner'); ?>">
                         <p class="text-danger"><?= isset($errors['deskripsi_banner']) == isset($errors['deskripsi_banner']) ? validation_show_error('deskripsi_banner') : '' ?></p>
                     </div>

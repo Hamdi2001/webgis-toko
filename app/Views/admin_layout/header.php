@@ -6,7 +6,7 @@
             <p class="p-2 d-inline"><?= session()->get('nama_admin') ?></p>
           </a>
           <ul class="dropdown-menu text-small">
-            <li><a class="dropdown-item" href="<?php echo base_url('/Toko/editProfilAdmin/'.session()->get('user_id'))?>"><i class="fas fa-cog"></i> Settings</a></li>
+            <li><a class="dropdown-item" href="<?php echo base_url('/Toko/editProfilAdmin/'.session()->get('user_id'))?>"><i class="fas fa-cog"></i> Setting</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="<?php echo base_url('Login/logout')  ?>"><i class="fas fa-sign-out-alt"></i> Sign out</a></li>
           </ul>

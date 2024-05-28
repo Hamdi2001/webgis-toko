@@ -36,7 +36,7 @@
                             <p class="text-danger"><?= isset($errors['foto_nib']) == isset($errors['foto_nib']) ? validation_show_error('foto_nib') : '' ?></p>
                         </div>
                         <div class="form-group">
-                            <label for="">Foto KTP</label>
+                            <label for="">Foto KTP</label><p class="text-danger d-inline">*</p>
                             <div class="form-control _ge_de_ol custom-file">
                                 <input type="file" name="foto_ktp" id="foto_ktp">
                                 <label class="custom-file-label" for="foto_ktp"><?= $toko['foto_ktp']; ?></label>
@@ -45,7 +45,7 @@
                             <p class="text-danger"><?= isset($errors['foto_ktp']) == isset($errors['foto_ktp']) ? validation_show_error('foto_ktp') : '' ?></p>
                         </div>
                         <div class="form-group">
-                            <label for="">Foto KK</label>
+                            <label for="">Foto KK</label><p class="text-danger d-inline">*</p>
                             <div class="form-control _ge_de_ol custom-file">
                                 <input type="file" name="foto_kk" id="foto_kk">
                                 <label class="custom-file-label" for="foto_kk"><?= $toko['foto_kk']; ?></label>
@@ -53,23 +53,23 @@
                             </div>
                             <p class="text-danger"><?= isset($errors['foto_kk']) == isset($errors['foto_kk']) ? validation_show_error('foto_kk') : '' ?></p>
                         </div>
-                         <div class="form-group">
+                         <div class="form-group"><label for="">Nomor NIB</label>
                             <input type="text" name="nib_toko" class="form-control _ge_de_ol" value="<?= (old('nib_toko')) ? old('nib_toko') : $toko['nib_toko'] ?>">
                             <p class="text-danger"><?= isset($errors['nib_toko']) == isset($errors['nib_toko']) ? validation_show_error('nib_toko') : '' ?></p>
                         </div>
-                         <div class="form-group">
+                         <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                             <input type="text" name="ktp_pemilik" class="form-control _ge_de_ol" value="<?= (old('ktp_pemilik')) ? old('ktp_pemilik') : $toko['ktp_pemilik'] ?>">
                             <p class="text-danger"><?= isset($errors['ktp_pemilik']) == isset($errors['ktp_pemilik']) ? validation_show_error('ktp_pemilik') : '' ?></p>
                         </div>
-                         <div class="form-group">
+                         <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                             <input type="text" name="kk_pemilik" class="form-control _ge_de_ol" value="<?= (old('kk_pemilik')) ? old('kk_pemilik') : $toko['kk_pemilik'] ?>">
                             <p class="text-danger"><?= isset($errors['kk_pemilik']) == isset($errors['kk_pemilik']) ? validation_show_error('kk_pemilik') : '' ?></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                             <input type="text" name="username_toko" class="form-control _ge_de_ol" value="<?= (old('username_toko')) ? old('username_toko') : $toko['username_toko'] ?>">
                             <p class="text-danger"><?= isset($errors['username_toko']) == isset($errors['username_toko']) ? validation_show_error('username_toko') : '' ?></p>
                         </div>
-                         <div class="form-group">
+                         <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                             <input type="text" name="password_toko" class="form-control _ge_de_ol" value="<?= (old('password_toko')) ? old('password_toko') : $toko['password_toko'] ?>">
                             <p class="text-danger"><?= isset($errors['password_toko']) == isset($errors['password_toko']) ? validation_show_error('password_toko') : '' ?></p>
                         </div>
@@ -77,19 +77,19 @@
                             <input type="email" name="toko_email" class="form-control _ge_de_ol" value="<?= (old('toko_email')) ? old('toko_email') : $toko['email_toko'] ?>">
                             <p class="text-danger"><?= isset($errors['toko_email']) == isset($errors['toko_email']) ? validation_show_error('toko_email') : '' ?></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                             <input type="text" name="nomor_telpon" class="form-control _ge_de_ol" value="<?= (old('nomor_telpon')) ? old('nomor_telpon') : $toko['nomor_telpon'] ?>">
                             <p class="text-danger"><?= isset($errors['nomor_telpon']) == isset($errors['nomor_telpon']) ? validation_show_error('nomor_telpon') : '' ?></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                             <input type="text" name="nama_toko" class="form-control _ge_de_ol" value="<?= (old('nama_toko')) ? old('nama_toko') : $toko['nama_toko'] ?>">
                             <p class="text-danger"><?= isset($errors['nama_toko']) == isset($errors['nama_toko']) ? validation_show_error('nama_toko') : '' ?></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                             <input type="text" name="jenis_usaha" class="form-control _ge_de_ol" value="<?= (old('jenis_usaha')) ? old('jenis_usaha') : $toko['jenis_usaha'] ?>">
                             <p class="text-danger"><?= isset($errors['jenis_usaha']) == isset($errors['jenis_usaha']) ? validation_show_error('jenis_usaha') : '' ?></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                             <select name="kecamatan" class="form-control _ge_de_ol" type="text">
                             <option value="" <?= old('kecamatan') == 'Masukkan Kecamatan Baru' ? 'selected' : '' ?>>Masukkan Kecamatan Baru</option>
                             <option value="Batu Putih" <?= old('kecamatan') == 'Batu Putih' ? 'selected' : '' ?>>Batu Putih</option>
@@ -108,11 +108,11 @@
                             </select>
                             <p class="text-danger"><?= isset($errors['kecamatan']) == isset($errors['kecamatan']) ? validation_show_error('kecamatan') : '' ?></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                             <input type="text" name="alamat_toko" class="form-control _ge_de_ol" value="<?= (old('alamat_toko')) ? old('alamat_toko') : $toko['alamat_toko'] ?>">
                             <p class="text-danger"><?= isset($errors['alamat_toko']) == isset($errors['alamat_toko']) ? validation_show_error('alamat_toko') : '' ?></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                             <select name="jenis_usaha_omset" class="form-control _ge_de_ol" type="text">
                             <option value="" <?= old('jenis_usaha_omset') == 'Masukkan Omset' ? 'selected' : '' ?>>Masukkan Omset</option>
                             <option value="Usaha Mikro" <?= old('jenis_usaha_omset') == 'Usaha Mikro' ? 'selected' : '' ?>>Maksimal Rp 300 juta</option>
@@ -125,11 +125,11 @@
                         <div id="map" style="width: 100%; height: 200px;"></div>
                             <div class="form-group container">
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col"><p class="text-danger d-inline">*Wajib Diisi</p>
                                         <input type="text" name="latitude" id="Latitude" class="form-control _ge_de_ol" placeholder="Enter Latitude" value="<?= (old('lat_toko')) ? old('alamat_lat_tokotoko') : $toko['lat_toko'] ?>">
                                         <p class="text-danger"><?= isset($errors['latitude']) == isset($errors['latitude']) ? validation_show_error('latitude') : '' ?></p>
                                     </div>
-                                    <div class="col">
+                                    <div class="col"><p class="text-danger d-inline">*Wajib Diisi</p>
                                         <input type="text" name="longitude" id="Longitude" class="form-control _ge_de_ol" placeholder="Enter Longitude" value="<?= (old('lon_toko')) ? old('lon_toko') : $toko['lon_toko'] ?>">
                                         <p class="text-danger"><?= isset($errors['longitude']) == isset($errors['longitude']) ? validation_show_error('longitude') : '' ?></p>
                                     </div>

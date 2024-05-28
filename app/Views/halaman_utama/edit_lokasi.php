@@ -19,14 +19,14 @@
                                 <div id="map" class="custom-popup" style="height: 350px;">
                                 </div>
                             </div>
-                        </div>
+                        </div><br/>
                             <div class="form-group container">
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col"><p class="text-danger d-inline">*Wajib Diisi</p>
                                         <input type="text" name="latitude" id="Latitude" class="form-control _ge_de_ol" placeholder="Enter Latitude" value="<?= (old('lat_toko')) ? old('alamat_lat_tokotoko') : $toko['lat_toko'] ?>">
                                         <p class="text-danger"><?= isset($errors['latitude']) == isset($errors['latitude']) ? validation_show_error('latitude') : '' ?></p>
                                     </div>
-                                    <div class="col">
+                                    <div class="col"><p class="text-danger d-inline">*Wajib Diisi</p>
                                         <input type="text" name="longitude" id="Longitude" class="form-control _ge_de_ol" placeholder="Enter Longitude" value="<?= (old('lon_toko')) ? old('lon_toko') : $toko['lon_toko'] ?>">
                                         <p class="text-danger"><?= isset($errors['longitude']) == isset($errors['longitude']) ? validation_show_error('longitude') : '' ?></p>
                                     </div>

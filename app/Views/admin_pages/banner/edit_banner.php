@@ -15,7 +15,7 @@
                     <input type="hidden" name="foto_banner_lama" value="<?= $banner['gambar_banner']; ?>">
                     <div class="form-03-main">
                         <div class="form-group">
-                            <label for="">Foto Banner</label>
+                            <label for="">Foto Banner</label><p class="text-danger d-inline">*</p>
                             <div class="form-control _ge_de_ol custom-file">
                                 <input type="file" name="foto_banner" id="foto_banner">
                                 <label class="custom-file-label" for="foto_banner"><?= $banner['gambar_banner']; ?></label>
@@ -23,7 +23,7 @@
                             </div>
                             <p class="text-danger"><?= isset($errors['foto_banner']) == isset($errors['foto_banner']) ? validation_show_error('foto_banner') : '' ?></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                             <input type="text" name="deskripsi_banner" class="form-control _ge_de_ol" value="<?= (old('deskripsi_banner')) ? old('deskripsi_banner') : $banner['deskripsi_banner'] ?>">
                             <p class="text-danger"><?= isset($errors['deskripsi_banner']) == isset($errors['deskripsi_banner']) ? validation_show_error('deskripsi_banner') : '' ?></p>
                         </div>

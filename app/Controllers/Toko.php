@@ -1053,16 +1053,16 @@ class Toko extends BaseController
          if($this->session->has('username_admin') == ""){
             return redirect()->to("/admin");
         }else{
-        $allowed_folders = ['ktp', 'kartu keluarga', 'nib']; // Daftar folder yang diizinkan
+            $allowed_folders = ['ktp', 'kartu keluarga', 'nib']; // Daftar folder yang diizinkan
 
             if (!in_array($folder, $allowed_folders)) {
-                throw new \CodeIgniter\Exceptions\PageNotFoundException($folder . ' tidak diizinkan.');
+                return redirect()->to('/toko');
             }
 
             $file_path = ROOTPATH . 'public/' . $folder . '/' . $filename;
             
             if (!file_exists($file_path)) {
-                throw new \CodeIgniter\Exceptions\PageNotFoundException($filename . ' tidak ditemukan di folder ' . $folder);
+               return redirect()->to('/toko');
             }
             
             $mime_type = mime_content_type($file_path);
