@@ -82,7 +82,7 @@
                                     <div class="card-body px-3 py-4-5">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <div class="stats-icon blue">
+                                                <div class="stats-icon green">
                                                     <i class="fas fa-newspaper"></i>
                                                 </div>
                                             </div>
@@ -106,6 +106,23 @@
                                             <div class="col-md-8">
                                                 <h6 class="text-muted font-semibold">Produk</h6>
                                                 <h6 class="font-extrabold mb-0"><?= $produk; ?></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-body px-3 py-4-5">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="stats-icon green">
+                                                    <i class="fas fa-user-alt"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <h6 class="text-muted font-semibold">Penulis</h6>
+                                                <h6 class="font-extrabold mb-0"><?= $penulis; ?></h6>
                                             </div>
                                         </div>
                                     </div>

@@ -22,7 +22,8 @@ class PenulisModel extends Model
     protected $updatedField  = 'updated_at';
 
     public function getAll(){
-        return $this->select('*');
+        return $this->table('penulis')
+        ->select('*');
     }
 
     public function search($keyword){

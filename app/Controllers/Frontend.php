@@ -71,11 +71,11 @@ class Frontend extends BaseController
         if($keyword){
              $berita = $this->beritaModel->search($keyword);
         }else{
-            $berita = $this->beritaModel;
+            $berita = $this->beritaModel->getberitaAll();
         }
 
         $data = [
-            'berita' => $berita->orderBy('created_at', 'DESC')->paginate(16, 'berita'),
+            'berita' => $berita->orderBy('berita.created_at', 'DESC')->paginate(16, 'berita'),
             'pager' => $this->beritaModel->pager,
         ];
         return view('halaman_utama/more_berita', $data);

@@ -20,7 +20,7 @@
                             </div>
                             <div class="col-lg-11">
                                 <h4 class="fw-bold mb-4"><?php echo $berita['judul_berita']; ?></h4>
-                                <p class=" me-5 d-inline">Penulis By <?php echo $berita['penulis_berita']; ?></p>
+                                <p class=" me-5 d-inline">Penulis By <?php echo $berita['nama_penulis']; ?></p>
                                 <p class=" me-5 d-inline"><?php echo $berita['created_at']; ?></p>
                                 <p class=" me-5 d-inline"></p>
                             </div>

@@ -117,7 +117,7 @@
                                                     <?= $limited_word = word_limiter($ber['isi_berita'],20);?>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <a href="/berita/<?= $ber['slug_berita']; ?>" class="mb-5 btn border border-secondary rounded-pill px-3 text-primary">Selengkapnya <i class="fa fa-arrow-right me-2 text-primary text-center"></i></a>
-                                                        <p class="fs-5 fw-bold mb-0">Posted By <?= $ber['penulis_berita']; ?></p>
+                                                        <p class="fs-5 fw-bold mb-0">Posted By <?= $ber['nama_penulis']; ?></p>
                                                     </div>
                                                 </div>
                                             </div>

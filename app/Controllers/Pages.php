@@ -42,6 +42,7 @@ class Pages extends BaseController
             'daerah' => $daerah,
             'berita' => $this->beritaModel->countAllResults(),
             'produk' => $this->produkModel->countAllResults(),
+            'penulis' => $this->penulisModel->countAllResults(),
             ];
 
             return view('admin_pages/home', $data); 
@@ -250,7 +251,7 @@ class Pages extends BaseController
         }else{
              $data_tambah = [
                 'title' => 'Tambah Berita',
-                'penulis' => $this->penulisModel->getAll()
+                'penulis' => $this->penulisModel->findAll()
             ];
             return view('admin_pages/berita/tambah_berita', $data_tambah);
         }
@@ -319,7 +320,7 @@ class Pages extends BaseController
         $data = [
             'title' =>  'Ubah Berita',
             'berita' => $this->beritaModel->getBeritaEdit($id_berita_edit),
-            'penulis' => $this->penulisModel->getAll()
+            'penulis' => $this->penulisModel->findAll()
         ];
         
         return view('/admin_pages/berita/edit_berita', $data);
@@ -492,6 +493,56 @@ class Pages extends BaseController
                 return redirect()->to('/Pages/tampilanaddPenulis')->withInput();
             }
         }
+    }
+
+    public function editPenulis($id_penulis_edit){
+        $data = [
+            'title' =>  'Ubah Penulis',
+            'penulis' => $this->penulisModel->getPenulisEdit($id_penulis_edit),
+        ];
+        
+        return view('/admin_pages/berita/edit_penulis', $data);
+    }
+
+    public function updatePenulis($id_penulis_edit){
+        if (!$this->validate([
+                  'nama_penulis' =>[
+                    'label' => 'Nama Penulis',
+                    'rules' => 'required',
+                    'errors' =>[
+                        'required' => '{field} Tidak Boleh Kosong',
+                    ]
+                ], 'nomor_penulis' =>[
+                    'label' => 'Nomor Penulis',
+                    'rules' => 'required|numeric|min_length[11]|max_length[13]',
+                    'errors' =>[
+                        'numeric' => '{field} Hanya Bisa Menggunakan Angka',
+                        'required' => '{field} Tidak Boleh Kosong',
+                        'min_length' => '{field} Tidak Boleh Kurang Dari Sebelas',
+                        'max_length' => '{field} Tidak Boleh Lebih Dari Duabelas',
+
+                    ]
+                ], 'email_penulis' =>[
+                    'label' => 'Email Penulis',
+                    'rules' => 'required|valid_email',
+                    'errors' =>[
+                        'required' => '{field} Tidak Boleh Kosong',
+                        'valid_email' => 'Format {field} Tidak Benar'
+                    ]
+                ]
+            ])){
+            return redirect()->to('/Pages/editPenulis/' . $this->request->getVar('id_penulis'))->withInput();
+        }
+        
+        $this->penulisModel->save([
+                'id_penulis' => $id_penulis_edit,
+                'nama_penulis' => $this->request->getVar('nama_penulis'),
+                'nomor_penulis' => $this->request->getVar('nomor_penulis'),
+                'email_penulis' => $this->request->getVar('email_penulis'),
+            ]);
+        session()->setFlashdata('pesan_edit', 'Anda Berhasil Edit Penulis');
+        return redirect()->to('/Pages/dataPenulis/');
+
     }
 
     public function deletePenulis($id_penulis){
