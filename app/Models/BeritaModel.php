@@ -30,20 +30,20 @@ class BeritaModel extends Model
     }
 
     public function getberitaAll(){
-       return $this->select('*')
+       return $this->select('*, berita.created_at AS waktu_berita')
             ->join('penulis', 'penulis.id_penulis = berita.id_penulis', 'left')
             ->join('akun_admin', 'akun_admin.id = berita.id', 'left');
     }
 
     public function getBeritaData($slug = false){
         if($slug == false){
-            return $this
+            return $this->select('*, berita.created_at AS waktu_berita')
             ->join('penulis', 'penulis.id_penulis = berita.id_penulis')
             ->join('akun_admin', 'akun_admin.id = berita.id')
             ->orderBy('berita.created_at', 'DESC')->findAll(4);
         }
 
-        return $this
+        return $this->select('*, berita.created_at AS waktu_berita')
         ->join('penulis', 'penulis.id_penulis = berita.id_penulis')
         ->join('akun_admin', 'akun_admin.id = berita.id')
         ->where(['slug_berita' => $slug])->first();
@@ -58,9 +58,6 @@ class BeritaModel extends Model
         $query = $builder->get();
         return $query->getRowArray();
     }
-
-
-
 }
 
 

@@ -22,7 +22,7 @@
                                                 <div class="item-img">
                                                     <img src="/gambar berita/<?= $ber['gambar_berita']; ?>" class="img-fluid w-100 rounded-top" style="height:200px;">
                                                 </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;"><?= $ber['created_at']; ?></div>
+                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;"><?= $ber['waktu_berita']; ?></div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                     <h4><?= $ber['judul_berita']; ?></h4>
                                                     <?= $limited_word = word_limiter($ber['isi_berita'],20);?>

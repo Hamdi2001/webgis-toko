@@ -77,7 +77,7 @@
                                                     <td><?= $ber['slug_berita']; ?></td>
                                                     <td><?= $ber['isi_berita']; ?></td>
                                                     <td><?= $ber['nama_penulis']; ?></td>
-                                                    <td><?= $ber['created_at']; ?></td>
+                                                    <td><?= $ber['waktu_berita']; ?></td>
                                                     <td>
                                                         <div class="btn mb-1">
                                                             <a href="/Pages/editBerita/<?= $ber['id_berita']; ?>" class="btn btn-primary" type="button"><i class="fas fa-edit"></i></a>
