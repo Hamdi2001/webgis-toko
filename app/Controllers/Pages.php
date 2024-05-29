@@ -6,10 +6,11 @@ use App\Models\BannerModel;
 use App\Models\TokoModel;
 use App\Models\ProdukModel;
 use App\Models\BeritaModel;
+use App\Models\PenulisModel;
 
 class Pages extends BaseController
 {
-    protected $session, $bannerModel, $tokoModel, $produkModel, $beritaModel;
+    protected $session, $bannerModel, $tokoModel, $produkModel, $beritaModel, $penulisModel;
 
     public function __construct()
     {
@@ -17,6 +18,7 @@ class Pages extends BaseController
         $this->tokoModel = new TokoModel(); 
         $this->produkModel = new ProdukModel();
         $this->beritaModel = new BeritaModel();
+        $this->penulisModel = new PenulisModel();
         $this->session = \Config\Services::session();
 
     }
@@ -227,15 +229,16 @@ class Pages extends BaseController
             if($keyword){
                 $berita = $this->beritaModel->search($keyword);
             }else{
-                $berita = $this->beritaModel;
+                $berita = $this->beritaModel->getberitaAll();
             }
 
              $data_berita = [
                 'title' => 'Data Berita',
-                'berita' => $berita ->paginate(5, 'berita'),
+                'berita' => $berita->paginate(5, 'berita'),
                 'pager' => $this->beritaModel->pager,
                 'currentPage' => $currentPage,
             ];
+            
             return view('admin_pages/berita/berita', $data_berita);
         }
     }
@@ -247,6 +250,7 @@ class Pages extends BaseController
         }else{
              $data_tambah = [
                 'title' => 'Tambah Berita',
+                'penulis' => $this->penulisModel->getAll()
             ];
             return view('admin_pages/berita/tambah_berita', $data_tambah);
         }
@@ -298,7 +302,8 @@ class Pages extends BaseController
                     'judul_berita' => $this->request->getPost('judul_berita'),
                     'slug_berita' => $this->request->getPost('slug_berita'),
                     'isi_berita' => $this->request->getPost('isi_berita'),
-                    'penulis_berita' => $this->request->getPost('penulis_berita')
+                    'id_penulis' => $this->request->getPost('penulis_berita'),
+                    'id' => $this->request->getPost('id')
                 ]);
                 $gambar_berita->move('gambar berita', $nama_gambar_berita);
                 session()->setFlashdata('pesan_tambah', 'Anda Berhasil Menambah');
@@ -313,7 +318,8 @@ class Pages extends BaseController
     public function editBerita($id_berita_edit){
         $data = [
             'title' =>  'Ubah Berita',
-            'berita' => $this->beritaModel->getBeritaEdit($id_berita_edit)
+            'berita' => $this->beritaModel->getBeritaEdit($id_berita_edit),
+            'penulis' => $this->penulisModel->getAll()
         ];
         
         return view('/admin_pages/berita/edit_berita', $data);
@@ -382,7 +388,8 @@ class Pages extends BaseController
                 'judul_berita' => $this->request->getVar('judul_berita'),
                 'slug_berita' => $this->request->getVar('slug_berita'),
                 'isi_berita' => $this->request->getVar('isi_berita'),
-                'penulis_berita' => $this->request->getVar('penulis_berita'),
+                'id_penulis' => $this->request->getPost('penulis_berita'),
+                'id' => $this->request->getPost('id')
             ]);
         session()->setFlashdata('pesan_edit', 'Anda Berhasil Edit Berita');
         return redirect()->to('/Pages/dataBerita/');
@@ -400,5 +407,99 @@ class Pages extends BaseController
         $berita->delete($id_berita);
         session()->setFlashdata('pesan_hapus', 'Data berhasil dihapus');
         return redirect()->to('/Pages/dataBerita');
+    }
+
+     public function tampilanaddPenulis(){
+        if($this->session->has('username_admin') == ""){
+            return redirect()->to("/admin");
+
+        }else{
+             $data_tambah = [
+                'title' => 'Tambah Penulis',
+            ];
+            return view('admin_pages/berita/tambah_penulis', $data_tambah);
+        }
+    }
+
+    public function dataPenulis(){
+        if($this->session->has('username_admin') == ""){
+            return redirect()->to("/admin");
+
+        }else{
+
+            $currentPage = $this->request->getVar('page_penulis') ? $this->request->getVar('page_penulis') : 1;
+
+            $keyword = $this->request->getVar('keyword');
+            if($keyword){
+                $penulis = $this->penulisModel->search($keyword);
+            }else{
+                $penulis = $this->penulisModel->getAll();
+            }
+
+            $data_penulis = [
+                'title' => 'Data Penulis',
+                'penulis' => $penulis->paginate(5, 'penulis'),
+                'pager' => $this->penulisModel->pager,
+                'currentPage' => $currentPage,
+            ];
+            
+            return view('admin_pages/berita/penulis', $data_penulis);
+        }
+    }
+
+    public function addPenulis(){
+        if($this->session->has('username_admin') == ""){
+            return redirect()->to("/admin");
+
+        }else{
+            if ($this->validate([
+            'nama_penulis' =>[
+                    'label' => 'Nama Penulis',
+                    'rules' => 'required',
+                    'errors' =>[
+                        'required' => '{field} Tidak Boleh Kosong',
+                    ]
+                ], 'nomor_penulis' =>[
+                    'label' => 'Nomor Penulis',
+                    'rules' => 'required|numeric|min_length[11]|max_length[13]',
+                    'errors' =>[
+                        'numeric' => '{field} Hanya Bisa Menggunakan Angka',
+                        'required' => '{field} Tidak Boleh Kosong',
+                        'min_length' => '{field} Tidak Boleh Kurang Dari Sebelas',
+                        'max_length' => '{field} Tidak Boleh Lebih Dari Duabelas',
+
+                    ]
+                ], 'email_penulis' =>[
+                    'label' => 'Email Penulis',
+                    'rules' => 'required|valid_email',
+                    'errors' =>[
+                        'required' => '{field} Tidak Boleh Kosong',
+                        'valid_email' => 'Format {field} Tidak Benar'
+                    ]
+                ]
+            ])){
+                $this->penulisModel->save([
+                    'nama_penulis' => $this->request->getPost('nama_penulis'),
+                    'nomor_penulis' => $this->request->getPost('nomor_penulis'),
+                    'email_penulis' => $this->request->getPost('email_penulis'),
+                    'id_penulis' => $this->request->getPost('penulis_berita'),
+                    'id' => $this->request->getPost('id')
+                ]);
+                session()->setFlashdata('pesan_tambah', 'Anda Berhasil Menambah');
+                return redirect()->to('/Pages/dataBerita');
+
+            }else{
+                return redirect()->to('/Pages/tampilanaddPenulis')->withInput();
+            }
+        }
+    }
+
+    public function deletePenulis($id_penulis){
+        $penulis = new PenulisModel();
+
+        $penulis->find($id_penulis);
+        $penulis->delete($id_penulis);
+        session()->setFlashdata('pesan_hapus', 'Data berhasil dihapus');
+        return redirect()->to('/Pages/dataPenulis');
     }
 }

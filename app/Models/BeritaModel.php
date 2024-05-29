@@ -13,7 +13,7 @@ class BeritaModel extends Model
 
     protected $returnType     = 'array';
 
-    protected $allowedFields = ['judul_berita','slug_berita','isi_berita','penulis_berita','gambar_berita'];
+    protected $allowedFields = ['judul_berita','slug_berita','isi_berita','penulis_berita','gambar_berita','id_penulis','id'];
 
     // Dates
     protected $useTimestamps = true;
@@ -22,22 +22,39 @@ class BeritaModel extends Model
     protected $updatedField  = 'updated_at';
 
     public function search($keyword){
-        return $this->table('berita')->like('judul_berita', $keyword)->orLike('slug_berita', $keyword);
+        return $this->table('berita')
+        ->select('*')
+        ->join('penulis', 'penulis.id_penulis = berita.id_penulis')
+        ->join('akun_admin', 'akun_admin.id = berita.id')
+        ->like('judul_berita', $keyword)->orLike('slug_berita', $keyword);
+    }
+
+    public function getberitaAll(){
+       return $this->select('*')
+            ->join('penulis', 'penulis.id_penulis = berita.id_penulis', 'left')
+            ->join('akun_admin', 'akun_admin.id = berita.id', 'left');
     }
 
     public function getBeritaData($slug = false){
         if($slug == false){
-            return $this->orderBy('created_at', 'DESC')->findAll(4);
+            return $this
+            ->join('penulis', 'penulis.id_penulis = berita.id_penulis')
+            ->join('akun_admin', 'akun_admin.id = berita.id')
+            ->orderBy('berita.created_at', 'DESC')->findAll(4);
         }
 
-        return $this->where(['slug_berita' => $slug])->first();
+        return $this
+        ->join('penulis', 'penulis.id_penulis = berita.id_penulis')
+        ->join('akun_admin', 'akun_admin.id = berita.id')
+        ->where(['slug_berita' => $slug])->first();
     }
 
     public function getBeritaEdit($id_berita_edit){
         $builder = $this->db->table('berita');
         $builder->select('*');
-        $builder
-        ->where('id_berita', $id_berita_edit);
+        $builder->join('penulis', 'penulis.id_penulis = berita.id_penulis');
+        $builder->join('akun_admin', 'akun_admin.id = berita.id');
+        $builder->where('id_berita', $id_berita_edit);
         $query = $builder->get();
         return $query->getRowArray();
     }

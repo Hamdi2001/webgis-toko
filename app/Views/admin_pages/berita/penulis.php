@@ -25,7 +25,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6 order-md-1 order-last">
-                                     <a class="btn btn-primary" href="<?php echo base_url('Pages/tampilanaddBerita')?>" style="width:auto;" data-toggle="buttons"><i class="fas fa-plus"></i> Tambah Berita</a>
+                                     <a class="btn btn-primary" href="<?php echo base_url('Pages/tampilanaddPenulis')?>" style="width:auto;" data-toggle="buttons"><i class="fas fa-plus"></i> Tambah Penulis</a>
                                 </div>
                                 <div class="col-md-6 order-md-2 order-first">
                                     <form action="" method="post">
@@ -58,31 +58,25 @@
                                             <thead>
                                                 <tr class="text-center">
                                                     <th>No</th>
-                                                    <th>Gambar</th>
-                                                    <th>Judul Berita</th>
-                                                    <th>Slug Berita</th>
-                                                    <th>Isi</th>
-                                                    <th>Penulis</th>
-                                                    <th>Tanggal Dibuat</th>
+                                                    <th>Nama Penulis</th>
+                                                    <th>Nomor Penulis</th>
+                                                    <th>Email Penulis</th>
                                                     <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php $nomor=1 + (5 * ($currentPage - 1)); ?>
-                                                <?php foreach ($berita as $ber) : ?>
+                                                <?php foreach ($penulis as $pen) : ?>
                                                 <tr class="text-center">
                                                     <td><?= $nomor++; ?></td>
-                                                    <td><img src="/gambar berita/<?= $ber['gambar_berita']; ?>" class="foto_toko"></td>
-                                                    <td><?= $ber['judul_berita']; ?></td>
-                                                    <td><?= $ber['slug_berita']; ?></td>
-                                                    <td><?= $ber['isi_berita']; ?></td>
-                                                    <td><?= $ber['nama_penulis']; ?></td>
-                                                    <td><?= $ber['created_at']; ?></td>
+                                                    <td><?= $pen['nama_penulis']; ?></td>
+                                                    <td><?= $pen['nomor_penulis']; ?></td>
+                                                    <td><?= $pen['email_penulis']; ?></td>
                                                     <td>
                                                         <div class="btn mb-1">
-                                                            <a href="/Pages/editBerita/<?= $ber['id_berita']; ?>" class="btn btn-primary" type="button"><i class="fas fa-edit"></i></a>
+                                                            <a href="/Pages/editPenulis/<?= $pen['id_penulis']; ?>" class="btn btn-primary" type="button"><i class="fas fa-edit"></i></a>
                                                             <!-- //Method spofing -->
-                                                            <form action="/Pages/dataBerita/<?= $ber['id_berita']; ?>" method="post" class="d-inline">
+                                                            <form action="/Pages/dataPenulis/<?= $pen['id_penulis']; ?>" method="post" class="d-inline">
                                                                 <!-- //Terhindar dari hacking -->
                                                                 <?= csrf_field(); ?> 
                                                                 <input type="hidden" name="_method" value="DELETE">
@@ -97,7 +91,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-3">
-                                    <?= $pager->links('berita', 'toko_pagination'); ?>
+                                    <?= $pager->links('penulis', 'toko_pagination'); ?>
                                 </div>
                 </div>
             </div>

@@ -57,6 +57,9 @@ $routes->delete('/Toko/detail/(:segment)', 'Toko::deleteProduk/$1');
 $routes->get('/backend/(:segment)', 'Backend::detailToko/$1');
 $routes->get('/toko/(:any)', 'Toko::detail/$1');
 
+$routes->get('/Pages/editPenulis/(:segment)', 'Pages::editPenulis/$1');
+$routes->delete('/Pages/dataPenulis/(:num)', 'Pages::deletePenulis/$1');
+
 $routes->get('/Pages/editBerita/(:segment)', 'Pages::editBerita/$1');
 $routes->delete('/Pages/dataBerita/(:num)', 'Pages::deleteBerita/$1');
 

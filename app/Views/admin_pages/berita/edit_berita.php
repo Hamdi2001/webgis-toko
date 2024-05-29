@@ -6,7 +6,7 @@
         <div class="section-body ">
             <div class="card mb-3" >
                 <div class="card-header text-center">
-                    <h4>Edit Berita</h4>
+                    <h4><?= $title; ?></h4>
                 </div>
                 <div class="card-body">
                 <form action="/Pages/updateBerita/<?= $berita['id_berita']; ?>" method="post" enctype="multipart/form-data">
@@ -14,6 +14,7 @@
                 <div class="form-03-main">
                     <input type="hidden" name="id_produk" value="<?= $berita['id_berita']; ?>">
                     <input type="hidden" name="foto_lama" value="<?= $berita['gambar_berita']; ?>">
+                    <input type="hidden" name="id" value="<?= session()->get('user_id'); ?>">
                     <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                         <input type="text" name="judul_berita" class="form-control _ge_de_ol" placeholder="Masukkan Judul Berita" value="<?= (old('judul_berita')) ? old('judul_berita') : $berita['judul_berita'] ?>">
                         <p class="text-danger"><?= isset($errors['judul_berita']) == isset($errors['judul_berita']) ? validation_show_error('judul_berita') : '' ?></p>
@@ -23,12 +24,19 @@
                         <p class="text-danger"><?= isset($errors['slug_berita']) == isset($errors['slug_berita']) ? validation_show_error('slug_berita') : '' ?></p>
                     </div>
                     <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
-                        <textarea rows="10" cols="30" id="editor"  name="isi_berita" class="form-control _ge_de_ol" placeholder="Masukkan Isi Berita" value="<?= (old('isi_berita')) ? old('isi_berita') : $berita['isi_berita'] ?>>"></textarea>
+                        <textarea rows="10" cols="30" id="editor"  name="isi_berita" class="form-control _ge_de_ol" placeholder="Masukkan Isi Berita" value="<?= (old('isi_berita')) ? old('isi_berita') : $berita['isi_berita'] ?></textarea>
                         <p class="text-danger"><?= isset($errors['isi_berita']) == isset($errors['isi_berita']) ? validation_show_error('isi_berita') : '' ?></p>
                     </div>
-                    <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
-                        <input type="text" name="penulis_berita" class="form-control _ge_de_ol" placeholder="Masukkan Penulis Berita" value="<?= (old('penulis_berita')) ? old('penulis_berita') : $berita['penulis_berita'] ?>">
-                        <p class="text-danger"><?= isset($errors['penulis_berita']) == isset($errors['penulis_berita']) ? validation_show_error('penulis_berita') : '' ?></p>
+                   <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
+                        <select name="penulis_berita" class="form-control _ge_de_ol" type="text">
+                        <option value="" hidden>Pilih Penulis</option>
+                        <?php foreach ($penulis as $key => $value)  :?>
+                        <option value="<?= $value['id_penulis']; ?>" <?= $berita['id_penulis'] == $value['id_penulis'] ? 'selected' : null ?>>
+                            <?= $value['nama_penulis']; ?>
+                        </option>
+                        <?php  endforeach;?>
+                    </select>
+                    <p class="text-danger"><?= isset($errors['penulis_berita']) == isset($errors['penulis_berita']) ? validation_show_error('penulis_berita') : '' ?></p>
                     </div>
                    <div class="form-group">
                         <label for="">Gambar Berita</label><p class="text-danger d-inline">*</p>

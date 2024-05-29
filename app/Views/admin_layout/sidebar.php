@@ -48,6 +48,13 @@
                             </a>
                         </li>
 
+                        <li class="sidebar-item ">
+                            <a href="<?php echo base_url('Pages/dataPenulis')?>" class='sidebar-link'>
+                                <i class="fas fa-user-alt"></i>
+                                <span>Penulis</span>
+                            </a>
+                        </li>
+
                         <li class="sidebar-title">Raise Support</li>
                         <li class="sidebar-item  ">
                             <a href="<?php echo base_url('Pages/dataBanner')?>" class='sidebar-link'>
