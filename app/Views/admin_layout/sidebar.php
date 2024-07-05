@@ -33,10 +33,10 @@
                                     <a href="/toko"><i class="fas fa-store"></i> Data Toko</a>
                                 </li>
                                 <li class="submenu-item ">
-                                    <a href="<?php echo base_url('Toko/verifikasiData')  ?>"> <i class="fas fa-store-slash"></i> Data Verifikasi Toko</a>
+                                    <a href="<?php echo base_url('Toko/verifikasiData')  ?>"> <i class="fas fa-store-slash"></i> Verifikasi Data Toko</a>
                                 </li>
                                 <li class="submenu-item ">
-                                    <a href="<?php echo base_url('Toko/verifikasiDataUpdate')  ?>"><i class="iconly-boldShow"></i> Data Update Toko Verifikasi</a>
+                                    <a href="<?php echo base_url('Toko/verifikasiDataUpdate')  ?>"><i class="iconly-boldShow"></i> Verifikasi Data Perubahan Lokasi Toko</a>
                                 </li>
                             </ul>
                         </li>

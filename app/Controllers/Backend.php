@@ -205,7 +205,7 @@ class Backend extends BaseController
 
         $data = $produk->find($id_produk);
         $foto_hapus = $data['foto_produk'];
-        if (file_exists("produk foto/" .$foto_hapus)) {
+        if (is_file("produk foto/" .$foto_hapus)) {
             unlink("produk foto/" .$foto_hapus);
         }
         $produk->delete($id_produk);
