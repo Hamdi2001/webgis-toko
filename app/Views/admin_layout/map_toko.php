@@ -11,5 +11,4 @@
         minZoom: 8, // Set this to your desired minimum zoom level
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 	}).addTo(map);
-
 </script>

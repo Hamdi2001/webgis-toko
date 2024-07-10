@@ -69,7 +69,6 @@ class Pages extends BaseController
     }
 
     
-
     public function addToko(){
         if($this->session->has('username_admin') == ""){
             return redirect()->to("/admin");
@@ -195,7 +194,7 @@ class Pages extends BaseController
         return redirect()->to('/Pages/dataBanner');
     }
 
-     public function deleteBanner($id){
+    public function deleteBanner($id){
         $banner = new BannerModel();
 
         $data = $banner->find($id);
@@ -394,7 +393,6 @@ class Pages extends BaseController
             ]);
         session()->setFlashdata('pesan_edit', 'Anda Berhasil Edit Berita');
         return redirect()->to('/Pages/dataBerita/');
-
     }
 
     public function deleteBerita($id_berita){

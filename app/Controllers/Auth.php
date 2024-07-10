@@ -204,53 +204,52 @@ class Auth extends BaseController
     }
 
     public function login(){
-    // Ambil data dari form login
-    $username = $this->request->getPost('username');
-    $password = $this->request->getPost('password');
+        // Ambil data dari form login
+        $username = $this->request->getPost('username');
+        $password = $this->request->getPost('password');
 
-    // Validasi input kosong
-    if (empty($username) || empty($password)) {
-        session()->setFlashdata('pesan_kosong', 'Username atau Password Tidak Boleh Kosong');
-        return redirect()->to('/login');
-    }
+        // Validasi input kosong
+        if (empty($username) || empty($password)) {
+            session()->setFlashdata('pesan_kosong', 'Username atau Password Tidak Boleh Kosong');
+            return redirect()->to('/login');
+        }
 
-    // Periksa kredensial pengguna
-    $userModel = new TokoModel();
-    $user = $userModel->where('username_toko', $username)->first();
+        // Periksa kredensial pengguna
+        $userModel = new TokoModel();
+        $user = $userModel->where('username_toko', $username)->first();
 
-    //Memeriksa Username ada atau tidak pada database
-    if (!$user) {
-        session()->setFlashdata('pesan_username', 'Username Anda Salah');
-        return redirect()->to('/login');
-    }
+        //Memeriksa Username ada atau tidak pada database
+        if (!$user) {
+            session()->setFlashdata('pesan_username', 'Username Anda Salah');
+            return redirect()->to('/login');
+        }
 
-    //Memeriksa Password cocok dengan username yang ada pada database pada database
-    if ($password != $user['password_toko']) {
-        session()->setFlashdata('pesan_password', 'Password Anda Salah');
-        return redirect()->to('/login');
-    }
+        //Memeriksa Password cocok dengan username yang ada pada database pada database
+        if ($password != $user['password_toko']) {
+            session()->setFlashdata('pesan_password', 'Password Anda Salah');
+            return redirect()->to('/login');
+        }
 
-    if ($user['status_toko'] == '0') {
-        session()->setFlashdata('pesan_aktifasi', 'Akun Anda Belum Diaktifasi');
-        return redirect()->to('/login');
-    }
+        if ($user['status_toko'] == '0') {
+            session()->setFlashdata('pesan_aktifasi', 'Akun Anda Belum Diaktifasi');
+            return redirect()->to('/login');
+        }
 
-    // Set session jika login berhasil
-    $datasession = [
-        'user_id' => $user['id_toko'],
-        'username_toko' => $user['username_toko'],
-        'nama_toko' => $user['nama_toko'],
-        'foto_toko' => $user['foto_toko'],
-        'alamat_toko' => $user['alamat_toko'],
-        'email_toko' => $user['email_toko'],
-        'nomor_telepon' => $user['nomor_telpon'],
-        'kecamatan' => $user['kecamatan_toko'],
-        'status_toko' => $user['status_toko'],
-        'logged_in' => true
-    ];
-    $this->session->set($datasession);
-    return redirect()->to('/');
-        
+        // Set session jika login berhasil
+        $datasession = [
+            'user_id' => $user['id_toko'],
+            'username_toko' => $user['username_toko'],
+            'nama_toko' => $user['nama_toko'],
+            'foto_toko' => $user['foto_toko'],
+            'alamat_toko' => $user['alamat_toko'],
+            'email_toko' => $user['email_toko'],
+            'nomor_telepon' => $user['nomor_telpon'],
+            'kecamatan' => $user['kecamatan_toko'],
+            'status_toko' => $user['status_toko'],
+            'logged_in' => true
+        ];
+        $this->session->set($datasession);
+        return redirect()->to('/');
     }
 
     public function forgot(){

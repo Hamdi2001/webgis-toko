@@ -182,6 +182,7 @@ class Toko extends BaseController
         }
         
     }
+    
     public function saveData($id_toko){
          if($this->session->has('username_admin') == ""){
             return redirect()->to("/admin");
@@ -210,7 +211,7 @@ class Toko extends BaseController
     }
 
     public function saveDataUpdate($id_toko){
-         if($this->session->has('username_admin') == ""){
+        if($this->session->has('username_admin') == ""){
             return redirect()->to("/admin");
 
         }else{
@@ -239,7 +240,6 @@ class Toko extends BaseController
 
 
     public function addToko(){
-
         if($this->session->has('username_admin') == ""){
             return redirect()->to("/admin");
 
@@ -922,7 +922,7 @@ class Toko extends BaseController
         }
     }
 
-     public function import(){
+    public function import(){
          if($this->session->has('username_admin') == ""){
             return redirect()->to("/admin");
 
