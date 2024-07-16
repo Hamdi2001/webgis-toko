@@ -23,7 +23,7 @@ class BeritaModel extends Model
 
     public function search($keyword){
         return $this->table('berita')
-        ->select('*')
+        ->select('*, berita.created_at AS waktu_berita')
         ->join('penulis', 'penulis.id_penulis = berita.id_penulis')
         ->join('akun_admin', 'akun_admin.id = berita.id')
         ->like('judul_berita', $keyword)->orLike('slug_berita', $keyword);

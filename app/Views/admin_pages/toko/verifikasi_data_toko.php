@@ -71,7 +71,7 @@
                                                             <button type="submit" class="btn btn-success" name="status_toko" value="1"><i class="fas fa-check"></i></button>
                                                         </form>
                                                         
-                                                        <form action="/toko/<?= $tk['id_toko']; ?>" method="post" class="d-inline">
+                                                        <form action="/Toko/verifikasiData/<?= $tk['id_toko']; ?>" method="post" class="d-inline">
                                                             <!-- //Terhindar dari hacking -->
                                                             <?= csrf_field(); ?> 
                                                             <input type="hidden" name="_method" value="DELETE">

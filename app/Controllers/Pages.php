@@ -6,14 +6,16 @@ use App\Models\BannerModel;
 use App\Models\TokoModel;
 use App\Models\ProdukModel;
 use App\Models\BeritaModel;
+use App\Models\LoginAdminModel;
 use App\Models\PenulisModel;
 
 class Pages extends BaseController
 {
-    protected $session, $bannerModel, $tokoModel, $produkModel, $beritaModel, $penulisModel;
+    protected $session, $bannerModel, $tokoModel, $produkModel, $beritaModel, $penulisModel, $loginadminModel;
 
     public function __construct()
     {
+        $this->loginadminModel = new LoginAdminModel();
         $this->bannerModel = new BannerModel(); 
         $this->tokoModel = new TokoModel(); 
         $this->produkModel = new ProdukModel();
@@ -25,7 +27,7 @@ class Pages extends BaseController
     
     public function index()
     {
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 1){
             return redirect()->to("/admin");
 
         }else{
@@ -34,12 +36,15 @@ class Pages extends BaseController
             ->groupBy('toko_kelontong.kecamatan_toko')
             ->get();
 
+            $tahun = $this->tokoModel->getYearData();
+
             $data = [
             'title' => 'Home | Webgis',
             'toko' => $this->tokoModel->where('status_toko', '1')->countAllResults(),
             'toko_verif' => $this->tokoModel->where('status_toko', '0')->countAllResults(),
             'toko_update' => $this->tokoModel->where('status_toko', '2')->countAllResults(),
             'daerah' => $daerah,
+            'tahun' => $tahun,
             'berita' => $this->beritaModel->countAllResults(),
             'produk' => $this->produkModel->countAllResults(),
             'penulis' => $this->penulisModel->countAllResults(),
@@ -51,7 +56,7 @@ class Pages extends BaseController
     }
 
     public function dataBanner(){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -70,7 +75,7 @@ class Pages extends BaseController
 
     
     public function addToko(){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -82,7 +87,7 @@ class Pages extends BaseController
     }
 
     public function addBanner(){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -94,7 +99,7 @@ class Pages extends BaseController
     }
 
     public function addBannerBaru(){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
        }else{
          if ($this->validate([
@@ -120,6 +125,7 @@ class Pages extends BaseController
             $this->bannerModel->save([
                 'gambar_banner' => $nama_foto_banner,
                 'deskripsi_banner' => $this->request->getPost('deskripsi_banner'),
+                'id' => $this->request->getPost('id')
             ]);
            
             $foto_banner->move('banner', $nama_foto_banner);
@@ -135,16 +141,23 @@ class Pages extends BaseController
     }
 
     public function editBanner($id_banner){
-        $data = [
-            'title' =>  'Ubah Banner',
-            'banner' => $this->bannerModel->getBanner($id_banner)
-        ];
-        
-        return view('/admin_pages/banner/edit_banner', $data);
+        if (session()->get('level') <> 2) {
+            return redirect()->to("/admin");
+        }else{
+            $data = [
+                'title' =>  'Ubah Banner',
+                'banner' => $this->bannerModel->getBanner($id_banner)
+            ];
+            
+            return view('/admin_pages/banner/edit_banner', $data);
+        }
     }
 
     public function updateBanner($id_banner){
-        if (!$this->validate([
+        if (session()->get('level') <> 2) {
+            return redirect()->to("/admin");
+        }else{
+             if (!$this->validate([
             'foto_banner' => [
                 'label' => 'Foto Banner',
                 'rules' => 'permit_empty|mime_in[foto_banner,image/jpg,image/jpeg,image/png]',
@@ -192,33 +205,42 @@ class Pages extends BaseController
 
         session()->setFlashdata('pesan_edit', 'Anda Berhasil Mengubah Banner');
         return redirect()->to('/Pages/dataBanner');
+        }
     }
 
     public function deleteBanner($id){
-        $banner = new BannerModel();
+        if (session()->get('level') <> 2) {
+            return redirect()->to("/admin");
+        }else{
+            $banner = new BannerModel();
 
-        $data = $banner->find($id);
-        $foto_hapus = $data['gambar_banner'];
-        if (file_exists("banner/" .$foto_hapus)) {
-            unlink("banner/" .$foto_hapus);
+            $data = $banner->find($id);
+            $foto_hapus = $data['gambar_banner'];
+            if (file_exists("banner/" .$foto_hapus)) {
+                unlink("banner/" .$foto_hapus);
+            }
+            $banner->delete($id);
+            session()->setFlashdata('pesan_hapus', 'Data Banner Berhasil Dihapus');
+            return redirect()->to('/Pages/dataBanner');
         }
-        $banner->delete($id);
-        session()->setFlashdata('pesan_hapus', 'Data Banner Berhasil Dihapus');
-        return redirect()->to('/Pages/dataBanner');
     }
 
     public function editProduk($id_produk_edit){
-        $data = [
-            'title' =>  'Ubah Produk',
-            'produk' => $this->produkModel->getProdukEdit($id_produk_edit)
-        ];
-        
-        return view('/admin_pages/toko/edit_produk', $data);
+        if (session()->get('level') <> 2) {
+            return redirect()->to("/admin");
+        }else{
+            $data = [
+                'title' =>  'Ubah Produk',
+                'produk' => $this->produkModel->getProdukEdit($id_produk_edit)
+            ];
+            
+            return view('/admin_pages/toko/edit_produk', $data);
+        }
     }
 
 
     public function dataBerita(){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -244,7 +266,7 @@ class Pages extends BaseController
     }
 
     public function tampilanaddBerita(){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -257,7 +279,7 @@ class Pages extends BaseController
     }
 
     public function addBerita(){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -316,100 +338,115 @@ class Pages extends BaseController
     }
 
     public function editBerita($id_berita_edit){
-        $data = [
-            'title' =>  'Ubah Berita',
-            'berita' => $this->beritaModel->getBeritaEdit($id_berita_edit),
-            'penulis' => $this->penulisModel->findAll()
-        ];
-        
-        return view('/admin_pages/berita/edit_berita', $data);
+        if(session()->get('level') <> 2){
+            return redirect()->to("/admin");
+
+        }else{
+            $data = [
+                'title' =>  'Ubah Berita',
+                'berita' => $this->beritaModel->getBeritaEdit($id_berita_edit),
+                'penulis' => $this->penulisModel->findAll()
+            ];
+            
+            return view('/admin_pages/berita/edit_berita', $data);
+        }
     }
 
     public function updateBerita($id_berita_edit){
-        if (!$this->validate([
-                    'gambar_berita' =>[
-                    'label' => 'Gambar Berita',
-                    'rules' => 'permit_empty|mime_in[image/jpg,image/jpeg,image/png]',
-                    'errors' =>[
-                        'mime_in' => 'Format {field} Harus JPG, JPEG atau PNG'
-                    ]
-                ],  'judul_berita' =>[
-                    'label' => 'Judul Berita',
-                    'rules' => 'required',
-                    'errors' =>[
-                        'required' => '{field} Tidak Boleh Kosong',
-                    ]
-                ], 'slug_berita' =>[
-                    'label' => 'Slug Berita',
-                    'rules' => 'required',
-                    'errors' =>[
-                        'required' => '{field} Tidak Boleh Kosong',
-                    ]
-                ], 'isi_berita' =>[
-                    'label' => 'Isi Berita',
-                    'rules' => 'required',
-                    'errors' =>[
-                        'required' => '{field} Tidak Boleh Kosong',
-                    ]
-                ], 'penulis_berita' =>[
-                    'label' => 'Penulis Berita',
-                    'rules' => 'required',
-                    'errors' =>[
-                        'required' => '{field} Tidak Boleh Kosong',
-                    ]
-                ]
-            ])){
-            return redirect()->to('/Pages/editBerita/' . $this->request->getVar('id_berita'))->withInput();
-        }
-        
+        if(session()->get('level') <> 2){
+            return redirect()->to("/admin");
 
-        $fileFoto = $this->request->getFile('gambar_berita');
-        
-        //cek gambar, berubah atau tidak
-        if ($fileFoto->getError() == 4) {
-            $namaFoto = $this->request->getVar('foto_lama');
         }else{
-            //generate nama file random
-            $namaFoto = $fileFoto->getRandomName();
-            $fotolama = $this->request->getVar('foto_lama');
-            if ($fotolama == "") {
-                //upload gambar
-                $fileFoto->move('gambar berita', $namaFoto);
-            }else {
-                //upload gambar
-                $fileFoto->move('gambar berita', $namaFoto);
-                //hapus file lama
-                unlink('gambar berita/'.$fotolama);
+            if (!$this->validate([
+                        'gambar_berita' =>[
+                        'label' => 'Gambar Berita',
+                        'rules' => 'permit_empty|mime_in[image/jpg,image/jpeg,image/png]',
+                        'errors' =>[
+                            'mime_in' => 'Format {field} Harus JPG, JPEG atau PNG'
+                        ]
+                    ],  'judul_berita' =>[
+                        'label' => 'Judul Berita',
+                        'rules' => 'required',
+                        'errors' =>[
+                            'required' => '{field} Tidak Boleh Kosong',
+                        ]
+                    ], 'slug_berita' =>[
+                        'label' => 'Slug Berita',
+                        'rules' => 'required',
+                        'errors' =>[
+                            'required' => '{field} Tidak Boleh Kosong',
+                        ]
+                    ], 'isi_berita' =>[
+                        'label' => 'Isi Berita',
+                        'rules' => 'required',
+                        'errors' =>[
+                            'required' => '{field} Tidak Boleh Kosong',
+                        ]
+                    ], 'penulis_berita' =>[
+                        'label' => 'Penulis Berita',
+                        'rules' => 'required',
+                        'errors' =>[
+                            'required' => '{field} Tidak Boleh Kosong',
+                        ]
+                    ]
+                ])){
+                return redirect()->to('/Pages/editBerita/' . $this->request->getVar('id_berita'))->withInput();
             }
+            
+
+            $fileFoto = $this->request->getFile('gambar_berita');
+            
+            //cek gambar, berubah atau tidak
+            if ($fileFoto->getError() == 4) {
+                $namaFoto = $this->request->getVar('foto_lama');
+            }else{
+                //generate nama file random
+                $namaFoto = $fileFoto->getRandomName();
+                $fotolama = $this->request->getVar('foto_lama');
+                if ($fotolama == "") {
+                    //upload gambar
+                    $fileFoto->move('gambar berita', $namaFoto);
+                }else {
+                    //upload gambar
+                    $fileFoto->move('gambar berita', $namaFoto);
+                    //hapus file lama
+                    unlink('gambar berita/'.$fotolama);
+                }
+            }
+            $this->beritaModel->save([
+                    'id_berita' => $id_berita_edit,
+                    'gambar_berita' => $namaFoto,
+                    'judul_berita' => $this->request->getVar('judul_berita'),
+                    'slug_berita' => $this->request->getVar('slug_berita'),
+                    'isi_berita' => $this->request->getVar('isi_berita'),
+                    'id_penulis' => $this->request->getPost('penulis_berita'),
+                    'id' => $this->request->getPost('id')
+                ]);
+            session()->setFlashdata('pesan_edit', 'Anda Berhasil Edit Berita');
+            return redirect()->to('/Pages/dataBerita/');
         }
-        $this->beritaModel->save([
-                'id_berita' => $id_berita_edit,
-                'gambar_berita' => $namaFoto,
-                'judul_berita' => $this->request->getVar('judul_berita'),
-                'slug_berita' => $this->request->getVar('slug_berita'),
-                'isi_berita' => $this->request->getVar('isi_berita'),
-                'id_penulis' => $this->request->getPost('penulis_berita'),
-                'id' => $this->request->getPost('id')
-            ]);
-        session()->setFlashdata('pesan_edit', 'Anda Berhasil Edit Berita');
-        return redirect()->to('/Pages/dataBerita/');
     }
 
     public function deleteBerita($id_berita){
-        $berita = new BeritaModel();
+        if(session()->get('level') <> 2){
+            return redirect()->to("/admin");
 
-        $data = $berita->find($id_berita);
-        $foto_hapus = $data['gambar_berita'];
-        if (file_exists("gambar berita/" .$foto_hapus)) {
-            unlink("gambar berita/" .$foto_hapus);
+        }else{
+            $berita = new BeritaModel();
+
+            $data = $berita->find($id_berita);
+            $foto_hapus = $data['gambar_berita'];
+            if (file_exists("gambar berita/" .$foto_hapus)) {
+                unlink("gambar berita/" .$foto_hapus);
+            }
+            $berita->delete($id_berita);
+            session()->setFlashdata('pesan_hapus', 'Data berhasil dihapus');
+            return redirect()->to('/Pages/dataBerita');
         }
-        $berita->delete($id_berita);
-        session()->setFlashdata('pesan_hapus', 'Data berhasil dihapus');
-        return redirect()->to('/Pages/dataBerita');
     }
 
-     public function tampilanaddPenulis(){
-        if($this->session->has('username_admin') == ""){
+    public function tampilanaddPenulis(){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -421,7 +458,7 @@ class Pages extends BaseController
     }
 
     public function dataPenulis(){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -447,7 +484,7 @@ class Pages extends BaseController
     }
 
     public function addPenulis(){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -494,61 +531,243 @@ class Pages extends BaseController
     }
 
     public function editPenulis($id_penulis_edit){
-        $data = [
-            'title' =>  'Ubah Penulis',
-            'penulis' => $this->penulisModel->getPenulisEdit($id_penulis_edit),
-        ];
-        
-        return view('/admin_pages/berita/edit_penulis', $data);
+        if(session()->get('level') <> 2){
+            return redirect()->to("/admin");
+
+        }else{
+            $data = [
+                'title' =>  'Ubah Penulis',
+                'penulis' => $this->penulisModel->getPenulisEdit($id_penulis_edit),
+            ];
+            
+            return view('/admin_pages/berita/edit_penulis', $data);
+        }
     }
 
     public function updatePenulis($id_penulis_edit){
-        if (!$this->validate([
-                  'nama_penulis' =>[
-                    'label' => 'Nama Penulis',
+        if(session()->get('level') <> 2){
+            return redirect()->to("/admin");
+
+        }else{
+            if (!$this->validate([
+                    'nama_penulis' =>[
+                        'label' => 'Nama Penulis',
+                        'rules' => 'required',
+                        'errors' =>[
+                            'required' => '{field} Tidak Boleh Kosong',
+                        ]
+                    ], 'nomor_penulis' =>[
+                        'label' => 'Nomor Penulis',
+                        'rules' => 'required|numeric|min_length[11]|max_length[13]',
+                        'errors' =>[
+                            'numeric' => '{field} Hanya Bisa Menggunakan Angka',
+                            'required' => '{field} Tidak Boleh Kosong',
+                            'min_length' => '{field} Tidak Boleh Kurang Dari Sebelas',
+                            'max_length' => '{field} Tidak Boleh Lebih Dari Duabelas',
+
+                        ]
+                    ], 'email_penulis' =>[
+                        'label' => 'Email Penulis',
+                        'rules' => 'required|valid_email',
+                        'errors' =>[
+                            'required' => '{field} Tidak Boleh Kosong',
+                            'valid_email' => 'Format {field} Tidak Benar'
+                        ]
+                    ]
+                ])){
+                return redirect()->to('/Pages/editPenulis/' . $this->request->getVar('id_penulis'))->withInput();
+            }
+            
+            $this->penulisModel->save([
+                    'id_penulis' => $id_penulis_edit,
+                    'nama_penulis' => $this->request->getVar('nama_penulis'),
+                    'nomor_penulis' => $this->request->getVar('nomor_penulis'),
+                    'email_penulis' => $this->request->getVar('email_penulis'),
+                ]);
+            session()->setFlashdata('pesan_edit', 'Anda Berhasil Edit Penulis');
+            return redirect()->to('/Pages/dataPenulis/');
+        }
+    }
+
+    public function deletePenulis($id_penulis){
+         if(session()->get('level') <> 2){
+            return redirect()->to("/admin");
+
+        }else{
+            $penulis = new PenulisModel();
+            
+
+            $penulis->find($id_penulis);
+            $penulis->delete($id_penulis);
+            session()->setFlashdata('pesan_hapus', 'Data berhasil dihapus');
+            return redirect()->to('/Pages/dataPenulis');
+        }
+    }
+
+    public function dataAdmin(){
+        if(session()->get('level') <> 1){
+            return redirect()->to("/admin");
+        } else {
+            $currentPage = $this->request->getVar('page_admin') ? $this->request->getVar('page_admin') : 1;
+            
+            $keyword = $this->request->getVar('keyword');
+            if($keyword){
+                $adminQuery = $this->loginadminModel->search($keyword);
+            } else {
+                $adminQuery = $this->loginadminModel->getAll();
+            }
+            
+            $data_admin = [
+                'title' => 'Data Akun Admin',
+                'admin' => $adminQuery->paginate(5, 'admin'),
+                'pager' => $adminQuery->pager,
+                'currentPage' => $currentPage,
+            ];
+            
+            return view('admin_pages/admin/akunadmin', $data_admin);
+        }
+    }
+
+    public function tampilanaddAdmin(){
+        if(session()->get('level') <> 1){
+            return redirect()->to("/admin");
+
+        }else{
+             $data_tambah = [
+                'title' => 'Tambah Admin',
+            ];
+            return view('admin_pages/admin/tambah_admin', $data_tambah);
+        }
+    }
+
+    public function addAdmin(){
+        if(session()->get('level') <> 1){
+            return redirect()->to("/admin");
+
+        }else{
+            if ($this->validate([
+            'nama_admin' =>[
+                    'label' => 'Nama Admin',
                     'rules' => 'required',
                     'errors' =>[
                         'required' => '{field} Tidak Boleh Kosong',
                     ]
-                ], 'nomor_penulis' =>[
-                    'label' => 'Nomor Penulis',
-                    'rules' => 'required|numeric|min_length[11]|max_length[13]',
+                ], 'username_admin' =>[
+                    'label' => 'Username Admin',
+                    'rules' => 'required|is_unique[akun_admin.username_admin]',
                     'errors' =>[
-                        'numeric' => '{field} Hanya Bisa Menggunakan Angka',
                         'required' => '{field} Tidak Boleh Kosong',
-                        'min_length' => '{field} Tidak Boleh Kurang Dari Sebelas',
-                        'max_length' => '{field} Tidak Boleh Lebih Dari Duabelas',
-
+                        'is_unique' => '{field} Sudah Didaftarkan'
                     ]
-                ], 'email_penulis' =>[
-                    'label' => 'Email Penulis',
-                    'rules' => 'required|valid_email',
+                ], 'password_admin' =>[
+                    'label' => 'Password Admin',
+                    'rules' => 'required|min_length[8]|max_length[13]|is_unique[akun_admin.password_admin]',
                     'errors' =>[
+                        'min_length' => '{field} Tidak Boleh Kurang Dari Delapan',
+                        'max_length' => '{field} Tidak Boleh Lebih Dari Duabelas',
                         'required' => '{field} Tidak Boleh Kosong',
-                        'valid_email' => 'Format {field} Tidak Benar'
+                        'is_unique' => '{field} Sudah Didaftarkan' 
                     ]
                 ]
             ])){
-            return redirect()->to('/Pages/editPenulis/' . $this->request->getVar('id_penulis'))->withInput();
-        }
-        
-        $this->penulisModel->save([
-                'id_penulis' => $id_penulis_edit,
-                'nama_penulis' => $this->request->getVar('nama_penulis'),
-                'nomor_penulis' => $this->request->getVar('nomor_penulis'),
-                'email_penulis' => $this->request->getVar('email_penulis'),
-            ]);
-        session()->setFlashdata('pesan_edit', 'Anda Berhasil Edit Penulis');
-        return redirect()->to('/Pages/dataPenulis/');
+                $this->loginadminModel->save([
+                    'nama_admin' => $this->request->getPost('nama_admin'),
+                    'username_admin' => $this->request->getPost('username_admin'),
+                    'password_admin' => $this->request->getPost('password_admin'),
+                    'level' => '2'
+                ]);
+                session()->setFlashdata('pesan_tambah', 'Anda Berhasil Menambah');
+                return redirect()->to('/Pages/dataAdmin');
 
+            }else{
+                return redirect()->to('/Pages/tampilanaddAdmin')->withInput();
+            }
+        }
     }
 
-    public function deletePenulis($id_penulis){
-        $penulis = new PenulisModel();
+     public function editAdmin($id_admin_edit){
+        if(session()->get('level') <> 1){
+            return redirect()->to("/admin");
 
-        $penulis->find($id_penulis);
-        $penulis->delete($id_penulis);
-        session()->setFlashdata('pesan_hapus', 'Data berhasil dihapus');
-        return redirect()->to('/Pages/dataPenulis');
+        }else{
+            $data = [
+                'title' =>  'Ubah Admin',
+                'admin' => $this->loginadminModel->getAdminEdit($id_admin_edit),
+            ];
+            
+            return view('/admin_pages/admin/edit_admin', $data);
+        }
+    }
+
+    public function updateAdmin($id_admin_edit){
+        if(session()->get('level') <> 1){
+            return redirect()->to("/admin");
+
+        }else{
+            $adminLama = $this->loginadminModel->getAdmin($this->request->getVar('id'));
+            //cek username 
+            if ($adminLama['username_admin'] == $this->request->getVar('username_admin')) {
+                $rule_username = 'required';
+            }else{
+                $rule_username = 'required|is_unique[akun_admin.username_admin]';
+            }
+            //cek password
+            if ($adminLama['password_admin'] == $this->request->getVar('password_admin')) {
+                $rule_password = 'required|min_length[8]|max_length[12]';
+            }else{
+                $rule_password = 'required|min_length[8]|max_length[12]|is_unique[akun_admin.password_admin]';
+            }
+
+            if (!$this->validate([
+                   'nama_admin' =>[
+                    'label' => 'Nama Admin',
+                    'rules' => 'required',
+                    'errors' =>[
+                        'required' => '{field} Tidak Boleh Kosong',
+                    ]
+                ], 'username_admin' =>[
+                    'label' => 'Username Admin',
+                    'rules' => $rule_username,
+                    'errors' =>[
+                        'required' => '{field} Tidak Boleh Kosong',
+                        'is_unique' => '{field} Sudah Didaftarkan'
+                    ]
+                ], 'password_admin' =>[
+                    'label' => 'Password Admin',
+                    'rules' =>  $rule_password,
+                    'errors' =>[
+                        'min_length' => '{field} Tidak Boleh Kurang Dari Delapan',
+                        'max_length' => '{field} Tidak Boleh Lebih Dari Duabelas',
+                        'required' => '{field} Tidak Boleh Kosong',
+                        'is_unique' => '{field} Sudah Didaftarkan' 
+                    ]
+                ]
+                ])){
+                return redirect()->to('/Pages/editAdmin/' . $this->request->getVar('id'))->withInput();
+            }
+            
+            $this->loginadminModel->save([
+                    'id' => $id_admin_edit,
+                    'nama_admin' => $this->request->getVar('nama_admin'),
+                    'username_admin' => $this->request->getVar('username_admin'),
+                    'password_admin' => $this->request->getVar('password_admin'),
+                ]);
+            session()->setFlashdata('pesan_edit', 'Anda Berhasil Edit Admin');
+            return redirect()->to('/Pages/dataAdmin/');
+        }
+    }
+
+    public function deleteAdmin($id){
+         if(session()->get('level') <> 1){
+            return redirect()->to("/admin");
+
+        }else{
+            $admin = new LoginAdminModel();
+        
+            $admin->find($id);
+            $admin->delete($id);
+            session()->setFlashdata('pesan_hapus', 'Data berhasil dihapus');
+            return redirect()->to('/Pages/dataAdmin');
+        }
     }
 }

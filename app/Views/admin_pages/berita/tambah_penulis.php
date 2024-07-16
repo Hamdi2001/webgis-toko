@@ -12,6 +12,7 @@
                 <form action="<?php echo base_url('Pages/addPenulis'); ?>" method="post" enctype="multipart/form-data">
                     <div class="form-03-main">
                     <?php $errors = validation_errors() ?>
+                    <input type="hidden" name="id" value="<?= session()->get('user_id'); ?>">
                     <div class="form-group"><p class="text-danger d-inline">*Wajib Diisi</p>
                         <input type="text" name="nama_penulis" class="form-control _ge_de_ol" placeholder="Masukkan nama_penulis" value="<?= old('nama_penulis'); ?>">
                         <p class="text-danger"><?= isset($errors['nama_penulis']) == isset($errors['nama_penulis']) ? validation_show_error('nama_penulis') : '' ?></p>

@@ -12,6 +12,7 @@
                 <form action="<?php echo base_url('Toko/addToko'); ?>" method="post" enctype="multipart/form-data">
                     <div class="form-03-main">
                     <?php $errors = validation_errors() ?>
+                    <input type="hidden" name="id" value="<?= session()->get('user_id'); ?>">
                      <div class="form-group">
                         <label>Masukkan Foto Toko</label>
                         <input type="file" name="toko_foto" class="form-control" value="<?= old('toko_foto'); ?>" accept="img/*">

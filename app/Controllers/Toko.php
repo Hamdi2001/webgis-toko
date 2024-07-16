@@ -24,7 +24,7 @@ class Toko extends BaseController
 
     public function index()
     {
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -55,7 +55,7 @@ class Toko extends BaseController
     }
 
     public function detail($id_detail_toko){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -90,7 +90,7 @@ class Toko extends BaseController
     }
 
     public function delete($id_toko){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -135,7 +135,7 @@ class Toko extends BaseController
     }
 
     public function deleteProduk($id_produk){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -153,7 +153,7 @@ class Toko extends BaseController
     }
 
     public function viewMap(){
-         if($this->session->has('username_admin') == ""){
+         if(session()->get('level') <> 2){
            return redirect()->to("/admin");
 
         }else{
@@ -170,7 +170,7 @@ class Toko extends BaseController
     }
 
     public function verifikasiData(){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 1){
             return redirect()->to("/admin");
 
         }else{
@@ -184,7 +184,7 @@ class Toko extends BaseController
     }
     
     public function saveData($id_toko){
-         if($this->session->has('username_admin') == ""){
+         if(session()->get('level') <> 1){
             return redirect()->to("/admin");
 
         }else{
@@ -197,8 +197,53 @@ class Toko extends BaseController
         
     }
 
+    public function rejectData($id_toko){
+        if(session()->get('level') <> 1){
+            return redirect()->to("/admin");
+
+        }else{
+
+            $toko_hapus = new TokoModel();
+            $produk_hapus = new ProdukModel();
+
+            $data_produk = $produk_hapus->where('id_toko', $id_toko)->findAll();
+            $data = $toko_hapus->find($id_toko);
+
+            
+            $foto_hapus = $data['foto_toko'];
+            $nib_hapus = $data['foto_nib'];
+            $ktp_hapus = $data['foto_ktp'];
+            $kk_hapus = $data['foto_kk'];
+
+            foreach ($data_produk as $key => $value) {
+                $hapus = $value['foto_produk'];
+                if (is_file("produk foto/" .$hapus)) {
+                    unlink("produk foto/" .$hapus);
+                }
+            }
+        
+            if (is_file("img/" .$foto_hapus)) {
+                unlink("img/" .$foto_hapus);
+            }
+            if (is_file("nib/" .$nib_hapus)) {
+                unlink("nib/" .$nib_hapus);
+            }
+            if (is_file("ktp/" .$ktp_hapus)) {
+                unlink("ktp/" .$ktp_hapus);
+            }
+            if (is_file("kartu keluarga/" .$kk_hapus)) {
+                unlink("kartu keluarga/" .$kk_hapus);
+            }
+            
+            $produk_hapus->getProdukHapus($id_toko);
+            $toko_hapus->delete($id_toko);
+            session()->setFlashdata('pesan', 'Data ditolak');
+            return redirect()->to('Toko/verifikasiData'); 
+        }
+    }
+
     public function verifikasiDataUpdate(){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 1){
             return redirect()->to("/admin");
 
         }else{
@@ -211,7 +256,7 @@ class Toko extends BaseController
     }
 
     public function saveDataUpdate($id_toko){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 1){
             return redirect()->to("/admin");
 
         }else{
@@ -225,7 +270,7 @@ class Toko extends BaseController
     }
 
     public function rejectDataUpdate($id_toko){
-         if($this->session->has('username_admin') == ""){
+         if(session()->get('level') <> 1){
             return redirect()->to("/admin");
 
         }else{
@@ -240,7 +285,7 @@ class Toko extends BaseController
 
 
     public function addToko(){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -413,6 +458,7 @@ class Toko extends BaseController
                     'jenis_usaha_omset' => $this->request->getPost('jenis_usaha_omset'),
                     'lat_toko' => $this->request->getPost('latitude'),
                     'lon_toko' => $this->request->getPost('longitude'),
+                    'id' => $this->request->getPost('id'),
                     'status_toko' => '1'
                 ]);
             
@@ -427,7 +473,7 @@ class Toko extends BaseController
     }
 
     public function editToko($user_id){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -441,7 +487,7 @@ class Toko extends BaseController
     }
 
     public function updateToko($user_id){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -708,7 +754,7 @@ class Toko extends BaseController
     }
 
     public function editProduk($id_produk_edit){
-         if($this->session->has('username_admin') == ""){
+         if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -722,7 +768,7 @@ class Toko extends BaseController
     }
 
     public function updateProduk($id_produk_edit){
-         if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -791,7 +837,7 @@ class Toko extends BaseController
     
     public function printpdf()
     {
-         if($this->session->has('username_admin') == ""){
+         if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -819,7 +865,7 @@ class Toko extends BaseController
 
     public function printexcel()
     {
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -923,7 +969,7 @@ class Toko extends BaseController
     }
 
     public function import(){
-         if($this->session->has('username_admin') == ""){
+         if(session()->get('level') <> 2){
             return redirect()->to("/admin");
 
         }else{
@@ -970,21 +1016,22 @@ class Toko extends BaseController
     }
 
     public function editProfilAdmin($id){
-        if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
+            
         }else{
             $data = [
-            'title' => 'Ubah Profil Admin',
-            'admin' => $this->loginadminModel->getAdminUpdate($id)
-        ];
-        
-        return view('/admin_pages/update_profil_admin', $data);
+                'title' => 'Ubah Profil Admin',
+                'admin' => $this->loginadminModel->getAdminUpdate($id)
+            ];
+            return view('/admin_pages/update_profil_admin', $data);
+            
         }
         
     }
 
     public function updateProfilAdmin($id){
-         if($this->session->has('username_admin') == ""){
+        if(session()->get('level') <> 2){
             return redirect()->to("/admin");
         }else{
 
@@ -1045,24 +1092,29 @@ class Toko extends BaseController
             ]);
 
             session()->setFlashdata('pesan_edit', 'Anda Berhasil Ubah Profil Admin');
-            return redirect()->to('/Pages');
+            return redirect()->to('/toko');
         }
     }
 
     public function tampilFoto($folder, $filename){
-         if($this->session->has('username_admin') == ""){
-            return redirect()->to("/admin");
-        }else{
+        if(session()->get('level') == 2 || 1){
             $allowed_folders = ['ktp', 'kartu keluarga', 'nib']; // Daftar folder yang diizinkan
 
             if (!in_array($folder, $allowed_folders)) {
-                return redirect()->to('/toko');
+                if (session()->get('level') <> 1) {
+                    return redirect()->to('/toko');
+                }
+                return redirect()->to('/Toko/verifikasiData');
             }
 
             $file_path = ROOTPATH . 'public/' . $folder . '/' . $filename;
             
             if (!file_exists($file_path)) {
-               return redirect()->to('/toko');
+                if (session()->get('level') <> 1) {
+                    return redirect()->to('/toko');
+                }
+                
+                return redirect()->to('/Toko/verifikasiData');
             }
             
             $mime_type = mime_content_type($file_path);
@@ -1070,6 +1122,9 @@ class Toko extends BaseController
             return $this->response->setHeader('Content-Type', $mime_type)
                                 ->setHeader('Content-Disposition', 'inline; filename="' . basename($file_path) . '"')
                                 ->setBody(file_get_contents($file_path));
-            }
+            
+        }else{
+           return redirect()->to("/admin");
         }
+    }
 }

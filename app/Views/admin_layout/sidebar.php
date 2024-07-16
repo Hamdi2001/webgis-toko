@@ -3,7 +3,7 @@
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-between">
                         <div class="logo">
-                            <a href="/Pages"><h1>TEKO</h1></a>
+                            <a><h1>TEKO</h1></a>
                         </div>
                         <div class="toggler">
                             <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -13,12 +13,14 @@
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
+                        <?php  if (session()->get('level') == '1'){?>
                         <li class="sidebar-item  ">
                             <a href="/Pages" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
+                        <?php  }else?>
 
                         <li class="sidebar-item  has-sub">
                             <a href="#" class='sidebar-link'>
@@ -26,21 +28,34 @@
                                 <span>Data Utama</span>
                             </a>
                             <ul class="submenu ">
+                                <?php  if (session()->get('level') == '2'){?>
                                 <li class="submenu-item ">
                                     <a href="<?php echo base_url('Toko/viewMap')  ?>"><i class="fas fa-map"></i> Data View Map</a>
                                 </li>
                                 <li class="submenu-item ">
                                     <a href="/toko"><i class="fas fa-store"></i> Data Toko</a>
                                 </li>
+                                <?php  }else if(session()->get('level') == '1'){?>
                                 <li class="submenu-item ">
                                     <a href="<?php echo base_url('Toko/verifikasiData')  ?>"> <i class="fas fa-store-slash"></i> Verifikasi Data Toko</a>
                                 </li>
                                 <li class="submenu-item ">
                                     <a href="<?php echo base_url('Toko/verifikasiDataUpdate')  ?>"><i class="iconly-boldShow"></i> Verifikasi Data Perubahan Lokasi Toko</a>
                                 </li>
+                                <?php  }?>
                             </ul>
                         </li>
+
+                        <?php  if (session()->get('level') == '1'){?>
+                        <li class="sidebar-item ">
+                            <a href="<?php echo base_url('Pages/dataAdmin')?>" class='sidebar-link'>
+                                <i class="fas fa-user-alt"></i>
+                                <span>Akun Admin</span>
+                            </a>
+                        </li>
+                        <?php  }else?>
                         
+                        <?php  if (session()->get('level') == '2'){?>
                         <li class="sidebar-item ">
                             <a href="<?php echo base_url('Pages/dataBerita')?>" class='sidebar-link'>
                                 <i class="bi bi-newspaper"></i>
@@ -55,13 +70,13 @@
                             </a>
                         </li>
 
-                        <li class="sidebar-title">Raise Support</li>
                         <li class="sidebar-item  ">
                             <a href="<?php echo base_url('Pages/dataBanner')?>" class='sidebar-link'>
                                 <i class="bi bi-person-badge-fill"></i>
                                 <span>Pengaturan Banner</span>
                             </a>
                         </li>
+                        <?php  }else?>
                     </ul>
                 </div>
                 <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>

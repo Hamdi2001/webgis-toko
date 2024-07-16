@@ -13,7 +13,7 @@ class TokoModel extends Model
 
     protected $returnType     = 'array';
 
-    protected $allowedFields = ['foto_nib','foto_ktp','foto_kk','nib_toko','ktp_pemilik','kk_pemilik','jenis_usaha','jenis_usaha_omset','foto_toko','username_toko', 'password_toko', 'email_toko', 'nomor_telpon', 'nama_toko', 'alamat_toko','kecamatan_toko', 'lat_toko', 'lon_toko', 'status_toko'];
+    protected $allowedFields = ['foto_nib','foto_ktp','foto_kk','nib_toko','ktp_pemilik','kk_pemilik','jenis_usaha','jenis_usaha_omset','foto_toko','username_toko', 'password_toko', 'email_toko', 'nomor_telpon', 'nama_toko', 'alamat_toko','kecamatan_toko', 'lat_toko', 'lon_toko', 'status_toko', 'id'];
 
     // Dates
     protected $useTimestamps = true;
@@ -170,6 +170,16 @@ class TokoModel extends Model
         }else {
             return false;
         }
+    }
+
+    public function getYearData(){
+        $query = $this->db->table($this->table)
+                ->select('COUNT(*) AS jumlah, YEAR(created_at) AS tahun')
+                ->where('status_toko', '1')
+                ->groupBy('YEAR(created_at)')
+                ->get();
+
+        return $query->getResultArray(); // Correctly fetch results as an array
     }
 
 }

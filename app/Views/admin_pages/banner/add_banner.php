@@ -12,6 +12,7 @@
                 <form action="<?php echo base_url('Pages/addBannerBaru'); ?>" method="post" enctype="multipart/form-data">
                     <div class="form-03-main">
                     <?php $errors = validation_errors() ?>
+                     <input type="hidden" name="id" value="<?= session()->get('user_id'); ?>">
                      <div class="form-group">
                         <label>Masukkan Foto Banner</label><p class="text-danger d-inline">*</p>
                         <input type="file" name="foto_banner" class="form-control" value="<?= old('foto_banner'); ?>" accept="banner/*">

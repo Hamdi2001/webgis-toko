@@ -51,6 +51,7 @@ $routes->get('/Backend/editProfil/(:segment)', 'Backend::editProfil/$1');
 $routes->get('/Backend/editLokasi/(:segment)', 'Backend::editLokasi/$1');
 
 $routes->delete('/toko/(:num)', 'Toko::delete/$1');
+$routes->delete('/Toko/verifikasiData/(:num)', 'Toko::rejectData/$1');
 $routes->delete('/Backend/(:num)', 'Backend::deleteProduk/$1');
 $routes->delete('/Toko/detail/(:segment)', 'Toko::deleteProduk/$1');
 
@@ -62,6 +63,9 @@ $routes->delete('/Pages/dataPenulis/(:num)', 'Pages::deletePenulis/$1');
 
 $routes->get('/Pages/editBerita/(:segment)', 'Pages::editBerita/$1');
 $routes->delete('/Pages/dataBerita/(:num)', 'Pages::deleteBerita/$1');
+
+$routes->get('/Pages/editAdmin/(:segment)', 'Pages::editAdmin/$1');
+$routes->delete('/Pages/dataAdmin/(:num)', 'Pages::deleteAdmin/$1');
 
 $routes->get('Toko/printexcel', 'Toko::printexcel');
 $routes->get('Toko/import', 'Toko::import');

@@ -41,4 +41,5 @@ const market = L.icon({
 		.addTo(map);
 	<?php } ?>
 </script>
+
 <?= $this->endSection(); ?>

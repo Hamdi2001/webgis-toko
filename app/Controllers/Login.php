@@ -35,10 +35,16 @@ class Login extends BaseController
                 'username_admin' => $user['username_admin'],
                 'password_admin' => $user['password_admin'],
                 'nama_admin' => $user['nama_admin'],
+                'level' => $user['level'],
                 'logged_in' => true
             ];
             $this->session->set($datasession);
-            return redirect()->to('Pages');
+            if ($user['level'] == 1) {
+                return redirect()->to('Pages');
+            }else{
+                return redirect()->to('/toko');
+            }
+            
         } else {
             $error = "Username atau Password salah";
             session()->setFlashdata('error', $error);
@@ -52,6 +58,7 @@ class Login extends BaseController
         session()->remove('username_admin');
         session()->remove('password_admin');
         session()->remove('nama_admin');
+        session()->remove('level');
         session()->remove('logged_in');
         session()->setFlashdata('pesan', 'Logout Sukses!');
         return redirect()->to('admin');

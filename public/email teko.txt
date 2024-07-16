@@ -9,3 +9,16 @@ dtjs zubw xbxd qhae
 
 email: temutoko11@gmail.com
 password: teko001123
+
+Gmail
+email: temutoko11@gmail.com
+password: holysword13
+
+ns1.yourprovider.com
+ns2.yourprovider.com
+
+ns1.dns-parking.com
+ns2.dns-parking.com
+
+ns1.niagahoster.com
+ns2.niagahoster.com
