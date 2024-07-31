@@ -291,7 +291,7 @@ class Auth extends BaseController
                 }
 
             }else {
-                session()->setFlashdata('pesan', 'Email Tidak Terdaftar');
+                session()->setFlashdata('pesan_error', 'Email Tidak Terdaftar');
                 return redirect()->to('/forgot');
             }
             

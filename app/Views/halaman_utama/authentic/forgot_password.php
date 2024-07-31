@@ -31,6 +31,11 @@
                             <?php echo session()->getFlashdata('pesan') ?>
                         </div>
                     <?php } ?>
+                    <?php if(session()-> getFlashdata('pesan_error')){ ?>
+                        <div class="alert alert-danger">
+                            <?php echo session()->getFlashdata('pesan_error') ?>
+                        </div>
+                    <?php } ?>
                     <input type="text" name="email" class="form-control _ge_de_ol" placeholder="Enter Email">
                      <p class="text-danger"><?= isset($errors['email']) == isset($errors['email']) ? validation_show_error('email') : '' ?></p>
                   </div>
