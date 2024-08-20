@@ -28,18 +28,18 @@
                     <div class="col-lg-4 col-md-8">
                         <div class="d-flex flex-column text-start footer-item">
                             <h4 class="text-light mb-3">Website Info</h4>
-                            <a class="btn-link" href="<?php echo base_url('Backend/viewMap')  ?>">Map</a>
+                            <a class="btn-link" href="<?php echo base_url('Backend/viewMap')  ?>">Peta</a>
                             <a class="btn-link" href="<?php echo base_url('Frontend/moreBerita')  ?>">Informasi</a>
-                            <a class="btn-link" href="<?php echo base_url('Frontend/contact')  ?>">Contact</a>
+                            <a class="btn-link" href="<?php echo base_url('Frontend/contact')  ?>">Kontak</a>
                             <a class="btn-link" href="<?php echo base_url('/login')  ?>">Login</a>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-8">
                         <div class="footer-item">
-                            <h4 class="text-light mb-3">Contact</h4>
+                            <h4 class="text-light mb-3">Kontak</h4>
                             <p>Alamat: Jl. DR. Murjani II, Gayam, Kec. Tj. Redeb, Kabupaten Berau, Kalimantan Timur</p>
                             <p>Email: tekotemutoko11@gmail.com</p>
-                            <p>Phone: +0123 4567 8910</p>
+                            <p>Telephone: (+62)11 2233 4455</p>
                         </div>
                     </div>
                 </div>

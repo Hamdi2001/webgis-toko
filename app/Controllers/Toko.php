@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Models\TokoModel;
 use App\Models\ProdukModel;
 use App\Models\LoginAdminModel;
-use \Dompdf\Dompdf;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -832,34 +831,6 @@ class Toko extends BaseController
                 ]);
             session()->setFlashdata('pesan_edit', 'Anda Berhasil Edit Produk');
             return redirect()->to('/toko/' . $this->request->getVar('id_toko'));
-        }
-    }
-    
-    public function printpdf()
-    {
-         if(session()->get('level') <> 2){
-            return redirect()->to("/admin");
-
-        }else{
-            $dompdf = new Dompdf();
-            if($this->session->has('username_admin') == ""){
-                return redirect()->to("/admin");
-
-            }else{
-                $toko = $this->tokoModel
-                ->where('status_toko', '1')->getAllData(); // Filter data dengan status
-                $data = [   
-                    'title' => 'Daftar Toko',
-                    'toko' => $toko,
-                ];
-                $html = view('admin_pages/toko/downloadpdf', $data);
-                $dompdf->loadHtml($html);
-                $dompdf->setPaper('A4', 'Landscape');
-                $dompdf->render();
-                $dompdf->stream('Data Toko.pdf', array(
-                    "Attachment" => false
-                ));
-            }
         }
     }
 

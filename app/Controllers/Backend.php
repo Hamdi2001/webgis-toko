@@ -218,7 +218,7 @@ class Backend extends BaseController
         if ($keyword != '') {
             $tokoModel = new TokoModel();
             $keyword = $this->request->getVar('keyword');
-            $num = 5; // Jumlah item per halaman
+            $num = 20; // Jumlah item per halaman
 
             $data = [
                 'location' => $tokoModel->getPaginated($num, $keyword),
@@ -230,12 +230,12 @@ class Backend extends BaseController
             return view('halaman_utama/tampilan_map', $data);
         }
             $tokoModel = new TokoModel();
-            $perPage = 5; // Jumlah item per halaman
+            $perPage = 20; // Jumlah item per halaman
             // Paginasi data
             $currentPage = $this->request->getVar('page_toko_pagination') ? $this->request->getVar('page_toko_pagination') : 1;
             $data = [
                 'location' => $tokoModel->where('status_toko', '1')->getAllData(),
-                'toko' => $tokoModel->where('status_toko', '1')->paginate(5, 'toko_pagination'),
+                'toko' => $tokoModel->where('status_toko', '1')->paginate(20, 'toko_pagination'),
                 'pager' => $tokoModel->pager,
                 'keyword' => $keyword,
                 'currentPage' => $currentPage,

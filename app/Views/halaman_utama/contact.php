@@ -3,7 +3,7 @@
 <?= $this->section('content'); ?>
   <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6">Contact</h1>
+            <h1 class="text-center text-white display-6">Kontak</h1>
         </div>
     <!-- Single Page Header End -->
 

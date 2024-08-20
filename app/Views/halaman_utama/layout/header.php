@@ -64,10 +64,10 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="/" class="nav-item nav-link active">Home</a>
-                            <a href="<?php echo base_url('Backend/viewMap')  ?>" class="nav-item nav-link">Map</a>
+                            <a href="/" class="nav-item nav-link active">Beranda</a>
+                            <a href="<?php echo base_url('Backend/viewMap')  ?>" class="nav-item nav-link">Peta</a>
                             <a href="<?php echo base_url('Frontend/moreBerita')  ?>" class="nav-item nav-link">Informasi</a>
-                            <a href="<?php echo base_url('Frontend/contact')  ?>" class="nav-item nav-link">Contact</a>
+                            <a href="<?php echo base_url('Frontend/contact')  ?>" class="nav-item nav-link">Kontak</a>
                         </div>
                         <div class="d-flex m-3 me-0">
                             <?php if (session()->get('logged_in')) { ?>

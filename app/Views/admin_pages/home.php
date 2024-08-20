@@ -36,7 +36,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Jumlah Toko</h6>
+                                                <h6 class="text-muted font-semibold">Jumlah Toko Verifikasi</h6>
                                                 <h6 class="font-extrabold mb-0"><?= $toko; ?></h6>
                                             </div>
                                         </div>
@@ -132,20 +132,30 @@
                             <div class="col-6 col-md-6">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="text-center">Jumlah Toko Tiap Kecamatan</h4>
-                                    </div>
-                                    <div class="card-body">
-                                       <canvas id="daerah"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-6">
-                                <div class="card">
-                                    <div class="card-header">
                                         <h4 class="text-center">Toko Per Tahun</h4>
                                     </div>
                                     <div class="card-body">
                                        <canvas id="per_tahun"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-6 col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="text-center">Jumlah Toko Tiap Kecamatan</h4>
+                                    </div>
+                                    <div class="card-body">
+                                       <canvas id="daerah_bar"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="text-center">Jumlah Toko Tiap Kecamatan</h4>
+                                    </div>
+                                    <div class="card-body">
+                                       <canvas id="daerah"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -216,6 +226,45 @@
     var chart_tahun_toko = new Chart(per_tahun,{
         type: 'bar',
         data : data_tahun_per_toko
+    });
+
+    //Bar Grafik
+    var daerah_toko = document.getElementById('daerah_bar');
+    var data_daerah_toko = [];
+    var label_daerah_toko = [];
+
+    <?php foreach($daerah->getResult() as $key=>$value): ?>
+        data_daerah_toko.push('<?= $value->jumlah ?>');
+        label_daerah_toko.push('<?= $value->kec ?>');
+    <?php endforeach ?>
+
+   var data_daerah_per_toko = {
+        datasets:[{
+            label: 'Data',
+            data : data_daerah_toko,
+            backgroundColor:[
+                'rgba(255, 0, 0, 0.8)',
+                'rgba(0, 0, 255, 0.8)',
+                'rgba(60, 179, 113, 0.8)',
+                'rgba(255, 165, 0, 0.8)',
+                'rgba(255, 99, 71, 0.8)',
+                'rgba(213, 42, 6, 0.8)',
+                'rgba(181, 17, 228, 0.8)',
+                'rgba(33, 237, 188, 0.8)',
+                'rgba(8, 107, 0, 0.8)',
+                'rgba(110, 13, 53, 0.8)',
+                'rgba(10, 240, 228, 0.8)',
+                'rgba(75, 14, 194, 0.8)',
+                'rgba(255, 173, 1, 0.8)',
+            ],
+            borderWidth: 0.5
+        }],
+        labels : label_daerah_toko, 
+    }
+
+   var chart_daerah_toko = new Chart(daerah_bar,{
+        type: 'bar',
+        data : data_daerah_per_toko
     });
 
 </script>

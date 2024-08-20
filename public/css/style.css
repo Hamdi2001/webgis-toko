@@ -55,3 +55,11 @@
   border: 1px solid grey;
   
 }
+
+.kecamatan-label {
+    font-size: 12px;
+    font-weight: bold;
+    background: transparent;
+    border: transparent;
+    padding: 2px;
+}

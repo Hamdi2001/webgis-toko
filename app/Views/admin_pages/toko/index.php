@@ -10,7 +10,6 @@
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?php echo base_url('pages')  ?>">Dashboard</a></li>
                         <li class="breadcrumb-item active" aria-current="page"><?= $title; ?></li>
                     </ol>
                 </nav>
@@ -40,7 +39,6 @@
                             <br/>
                             <div class="row">
                                 <div class="order-last">
-                                    <input class="btn btn-outline-secondary" type="button" value="Print PDF" onclick="window.open('<?php echo site_url('Toko/printpdf')?>' , 'blank')">
                                     <?php 
                                         $request = \Config\Services::request();
                                         $keyword = $request->getVar('keyword');
@@ -50,13 +48,13 @@
                                             $param = "";
                                         }
                                     ?>
-                                    <a href="<?= site_url('Toko/printexcel'.$param); ?>" class="btn btn-outline-secondary"><i class="fas fa-file-download"></i> Print Excel</a>
+                                    <a href="<?= site_url('Toko/printexcel'.$param); ?>" class="btn btn-outline-secondary"><i class="fas fa-download"></i> Export Excel</a>
                                     <div class="btn-group">
                                             <div class="dropdown dropdown-color-icon">
                                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button"
                                                     id="dropdownMenuButtonEmoji" data-bs-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
-                                                    <span Class="me-50"><i class="fas fa-file-upload"></i></span>Import Excel
+                                                    <span Class="me-50"><i class="fas fa-upload"></i></span>Import Excel
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonEmoji">
                                                     <a class="dropdown-item" href="<?= base_url('Data-Toko-Contoh-import.xlsx'); ?>"><span

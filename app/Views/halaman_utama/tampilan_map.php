@@ -32,9 +32,9 @@
                 <thead>
                     <tr class="text-center">
                     <th scope="col">No</th>
-                    <th scope="col">Foto</th>
                     <th scope="col">Nama Toko</th>
                     <th scope="col">Alamat</th>
+                    <th scope="col">Kecamatan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,9 +52,9 @@
                     foreach ($toko as $tk) : ?>
                         <tr class="text-center">
                             <td><?= $no++; ?></td>
-                            <td><img src="/img/<?= $tk['foto_toko']; ?>" style="width: 100px; height: 100px;"></td>
                             <td><?= $tk['nama_toko']; ?></td>
                             <td><?= $tk['alamat_toko']; ?></td>
+                            <td><?= $tk['kecamatan_toko']; ?></td>
                     <?php endforeach; ?>
                 </tbody>
                 </table>
@@ -108,7 +108,8 @@
 		.bindPopup('<img src="<?= base_url('img/' . $value['foto_toko']) ?>"width="100px;height:100px;"><br>'+
 			'<b><?= $value['nama_toko']; ?></b><br>'+
 			'Alamat : <?= $value['alamat_toko']; ?><br>'+
-            '<a href="/backend/<?= $value['id_toko']; ?>">Lihat Detail.....</a>')
+            '<a href="/backend/<?= $value['id_toko']; ?>">Lihat Detail.....</a><br>'+
+            '<a href="https://www.google.com/maps?q=<?= $value['lat_toko']; ?>,<?= $value['lon_toko']; ?>" target="_blank" class="btn">Buka Di Google Maps</a>') 
 		.addTo(map);
 	<?php } ?>
 
@@ -127,13 +128,22 @@
         }
     
     // Memuat dan menambahkan GeoJSON ke peta dengan gaya dinamis
-       $.getJSON("<?= base_url('kabupaten/berau.geojson'); ?>", function(data) {
+        $.getJSON("<?= base_url('kabupaten/berau.geojson'); ?>", function(data) {
         L.geoJSON(data, {
             style: function(feature) {
                 return {
                     color: hashStringToColor(feature.properties.Kecamatan), // Menghasilkan warna dari nama kecamatan
-                    fillOpacity: 1.0
+                    fillColor: hashStringToColor(feature.properties.Kecamatan), // Warna isi dengan transparansi
+                    fillOpacity: 0.5 // Menyesuaikan transparansi
                 };
+            },
+            onEachFeature: function(feature, layer) {
+                // Mengikat tooltip dengan nama kecamatan
+                layer.bindTooltip(feature.properties.Kecamatan, {
+                    permanent: true, // Label akan selalu terlihat
+                    direction: "center", // Pusatkan label
+                    className: "kecamatan-label" // Kelas CSS untuk styling label
+                });
             }
         }).addTo(map);
     });
