@@ -166,4 +166,3 @@ map.addLayer(marker);
 </script>
 
 <?= $this->endSection(); ?>
-

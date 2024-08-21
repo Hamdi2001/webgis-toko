@@ -45,44 +45,5 @@
     </div>
 </div>
 
-<?= $this->include('admin_layout/map_toko'); ?>
-<script>
-//Mengambil titik cordinat
-var latInput = document.querySelector("[name=latitude]");
-var lngInput = document.querySelector("[name=longitude]");
-
-var curLocation = [1.753254, 117.629075];
-map.attributionControl.setPrefix(false);
-
-var marker = new L.marker(curLocation, {
-  draggable: true,
-});
-
-//Mengambil titik cordinatar untuk marker geser/bergerak
-// marker.on('dragend', function(e) {
-//   var position = marker.getLatLng();
-//   marker.setLatLng(position, {
-//     curLocation,
-//   }).bindPopup(position).update();
-//   $("#Latitude").val(position.lat);
-//   $("#Longitude").val(position.lng);
-// });
-
-//Mengambil titik cordinat saat map di klik
-map.on('click', function(e) {
-  var lat = e.latlng.lat;
-  var lng = e.latlng.lng;
-  if(!marker){
-    marker = L.marker(e.latlng).addTo(map);
-  }else{
-    marker.setLatLng(e.latlng);
-  }
-  latInput.value = lat;
-  lngInput.value = lng;
-});
-
-map.addLayer(marker);
-</script>
-
 <?= $this->endSection(); ?>
 
