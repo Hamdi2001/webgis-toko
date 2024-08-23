@@ -44,17 +44,6 @@
             <?= $this->include('admin_layout/sidebar'); ?>
 
             <?= $this->renderSection('content'); ?>
-
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                        <p><?= $year = date("Y"); ?> &copy; Teko</p> 
-                    </div>
-                    <div class="float-end">
-                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span>TEKO</a></p>
-                    </div>
-                </div>
-            </footer>
         </div>
     </div>
     <script src="<?php echo base_url('asset/dist/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') ?>"></script>
