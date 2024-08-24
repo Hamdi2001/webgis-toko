@@ -30,25 +30,6 @@ class Toko extends BaseController
             $keyword = $this->request->getGet('keyword');
             $data = $this->tokoModel->getPaginatedadmin(5, $keyword);
             
-            // $currentPage = $this->request->getVar('page_toko_kelontong') ? $this->request->getVar('page_toko_kelontong') : 1;
-
-            // $keyword = $this->request->getVar('keyword');
-            // $query = $this->tokoModel->where('status_toko', '1'); // Mulai query dengan kondisi status_toko 1
-
-            // if ($keyword) {
-            //     $query->search($keyword); // Terapkan pencarian jika ada kata kunci
-            // }
-
-            // $toko = $query->paginate(5, 'toko_kelontong', $currentPage); // Lakukan paginate setelah query selesai
-            // $totalRows = $query->countAllResults(); // Hitung total data
-
-            // $data = [
-            //     'title' => 'Daftar Toko',
-            //     'toko' => $toko,
-            //     'pager' => $this->tokoModel->pager,
-            //     'currentPage' => $currentPage,
-            //     'totalRows' => $totalRows,
-            // ];
             return view('admin_pages/toko/index', $data);
         }
     }
